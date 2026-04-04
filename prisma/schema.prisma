@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// 用户（商家 / 客户 / 管理员）
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  password  String
+  role      String   @default("merchant") // merchant | customer | admin
+  status    String   @default("pending")  // pending | approved | rejected
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products  Product[]
+  services  ServiceProvider[]
+  rentals   Rental[]
+  projects  Project[]
+  demands   Demand[]
+}
+
+// 产品（建筑产品 + 家具）
+model Product {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  price         Float?
+  priceUnit     String?
+  category      String   // 建材 | 工具 | 电气设备 | 工程机械 | 装修材料 | 家具
+  mainCategory  String   // 找建筑产品 | 找家具
+  listingType   String   // sell | rent | both
+  inventoryType String   // local | china
+  images        String?  // JSON array of image URLs
+  contact       String?
+  location      String?
+  status        String   @default("active")
+  isFeatured    Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+// 服务商（找服务商）
+model ServiceProvider {
+  id          String   @id @default(cuid())
+  companyName String
+  description String?
+  category    String   // 房建 | 装修 | 道路 | 特殊工程
+  contact     String?
+  phone       String?
+  address     String?
+  images      String?
+  experience  Int?
+  status      String   @default("active")
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+// 租赁
+model Rental {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  type        String   // lessor | lessee
+  category    String?
+  price       Float?
+  priceUnit   String?
+  images      String?
+  contact     String?
+  location    String?
+  status      String   @default("active")
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+// 项目发布
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  category    String?
+  budget      Float?
+  budgetUnit  String?  // USD | CDF
+  location    String?
+  deadline    String?
+  contact     String?
+  status      String   @default("open") // open | closed
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+// 客户需求登记
+model Demand {
+  id          String   @id @default(cuid())
+  name        String
+  phone       String
+  description String
+  category    String?
+  budget      Float?
+  status      String   @default("new") // new | contacted | resolved
+  createdAt   DateTime @default(now())
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+}
+
+// 广告位
+model Banner {
+  id        String   @id @default(cuid())
+  title     String
+  imageUrl  String
+  linkUrl   String?
+  position  String   @default("home_top")
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}

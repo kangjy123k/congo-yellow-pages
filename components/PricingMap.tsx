@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, TileLayer, Polygon, Polyline, Marker, Tooltip, useMap, CircleMarker } from "react-leaflet";
+import { MapContainer, TileLayer, Pane, Polygon, Polyline, Marker, Tooltip, useMap, CircleMarker } from "react-leaflet";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import L, { type LatLngBoundsExpression, type PathOptions } from "leaflet";
@@ -94,49 +94,52 @@ function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
       className="h-[640px] w-full rounded-2xl border border-gray-200 shadow-lg overflow-hidden"
     >
       <TileLayer attribution={TILE_ATTR} url={TILE_URL} />
-      <RocadeUnderlay />
-      {shapes.map(({ commune: c, polygon }) => {
-        const clickable = !!c.streets?.length;
-        const color = priceColor(c.pricePerSqm);
-        const base: PathOptions = {
-          color,
-          weight: clickable ? 2.5 : 1.5,
-          fillColor: color,
-          fillOpacity: clickable ? 0.45 : 0.22,
-          opacity: 0.95,
-        };
-        return (
-          <Polygon
-            key={c.slug}
-            positions={polygon}
-            pathOptions={base}
-            eventHandlers={{
-              mouseover: (e) => {
-                (e.target as L.Path).setStyle({
-                  fillOpacity: 0.7,
-                  weight: 3.5,
-                });
-                (e.target as L.Path).bringToFront();
-              },
-              mouseout: (e) => (e.target as L.Path).setStyle(base),
-              click: () => {
-                if (clickable) onSelect(c.slug);
-              },
-            }}
-          >
-            <Tooltip direction="top" sticky className="price-tooltip">
-              <div className="ttip">
-                <div className="ttip__name">{c.name}</div>
-                <div className="ttip__price">
-                  <strong>${c.pricePerSqm}</strong>
-                  <span>/m²</span>
+      <Pane name="rocade" style={{ zIndex: 350 }}>
+        <RocadeUnderlay />
+      </Pane>
+      <Pane name="communes" style={{ zIndex: 400 }}>
+        {shapes.map(({ commune: c, polygon }) => {
+          const clickable = !!c.streets?.length;
+          const color = priceColor(c.pricePerSqm);
+          const base: PathOptions = {
+            color,
+            weight: clickable ? 2.5 : 1.5,
+            fillColor: color,
+            fillOpacity: clickable ? 0.45 : 0.22,
+            opacity: 0.95,
+          };
+          return (
+            <Polygon
+              key={c.slug}
+              positions={polygon}
+              pane="communes"
+              pathOptions={base}
+              eventHandlers={{
+                mouseover: (e) => {
+                  (e.target as L.Path).setStyle({ fillOpacity: 0.7, weight: 3.5 });
+                  (e.target as L.Path).bringToFront();
+                },
+                mouseout: (e) => (e.target as L.Path).setStyle(base),
+                click: () => { if (clickable) onSelect(c.slug); },
+              }}
+            >
+              <Tooltip direction="top" sticky className="price-tooltip">
+                <div className="ttip">
+                  <div className="ttip__name">{c.name}</div>
+                  <div className="ttip__price">
+                    <strong>${c.pricePerSqm}</strong>
+                    <span>/m²</span>
+                  </div>
+                  {clickable && <div className="ttip__hint">Cliquer pour détails →</div>}
                 </div>
-                {clickable && <div className="ttip__hint">Cliquer pour détails →</div>}
-              </div>
-            </Tooltip>
-          </Polygon>
-        );
-      })}
+              </Tooltip>
+            </Polygon>
+          );
+        })}
+      </Pane>
+      <Pane name="roads" style={{ zIndex: 500 }}>
+        <MajorRoadsOverlay />
+      </Pane>
       {shapes.map(({ commune: c }) => (
         <Marker
           key={`badge-${c.slug}`}
@@ -145,7 +148,6 @@ function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
           interactive={false}
         />
       ))}
-      <MajorRoadsOverlay />
     </MapContainer>
   );
 }
@@ -157,6 +159,7 @@ function RocadeUnderlay() {
         <Polyline
           key={seg.id}
           positions={seg.coords}
+          pane="rocade"
           interactive={false}
           pathOptions={{
             color: "#9ca3af",
@@ -169,24 +172,28 @@ function RocadeUnderlay() {
       ))}
       <CircleMarker
         center={ROCADE_NORTH_START}
+        pane="rocade"
         radius={4}
         interactive={false}
         pathOptions={{ color: "#6b7280", fillColor: "#d1d5db", fillOpacity: 1, weight: 1 }}
       />
       <CircleMarker
         center={ROCADE_SOUTH_JUNCTION}
+        pane="rocade"
         radius={5}
         interactive={false}
         pathOptions={{ color: "#6b7280", fillColor: "#d1d5db", fillOpacity: 1, weight: 1 }}
       />
       <CircleMarker
         center={ROCADE_PONT_NDJILI}
+        pane="rocade"
         radius={4}
         interactive={false}
         pathOptions={{ color: "#6b7280", fillColor: "#d1d5db", fillOpacity: 1, weight: 1 }}
       />
       <CircleMarker
         center={ROCADE_RN1_END}
+        pane="rocade"
         radius={4}
         interactive={false}
         pathOptions={{ color: "#6b7280", fillColor: "#d1d5db", fillOpacity: 1, weight: 1 }}
@@ -217,12 +224,10 @@ function MajorRoadsOverlay() {
           <Polyline
             key={road.id}
             positions={road.coords}
+            pane="roads"
             pathOptions={baseStyle}
             eventHandlers={{
-              mouseover: (e) => {
-                (e.target as L.Path).setStyle(hoverStyle);
-                (e.target as L.Path).bringToFront();
-              },
+              mouseover: (e) => (e.target as L.Path).setStyle(hoverStyle),
               mouseout: (e) => (e.target as L.Path).setStyle(baseStyle),
             }}
           >

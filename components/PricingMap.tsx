@@ -204,16 +204,16 @@ function RocadeUnderlay() {
 
 function MajorRoadsOverlay() {
   const baseStyle = {
-    color: "#9ca3af",
-    weight: 2,
-    opacity: 0.85,
+    color: "#6b7280",
+    weight: 1.6,
+    opacity: 0.45,
     lineCap: "round" as const,
     lineJoin: "round" as const,
   };
   const hoverStyle = {
     color: "#f59e0b",
-    weight: 4,
-    opacity: 1,
+    weight: 3.5,
+    opacity: 0.95,
   };
   return (
     <>

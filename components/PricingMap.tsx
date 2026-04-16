@@ -74,6 +74,13 @@ export default function PricingMap(props: Props) {
   return <CityView onSelect={(slug) => router.push(`/prices/${slug}`)} />;
 }
 
+// Tight bounds on central Kinshasa. Near-square so mobile-portrait
+// viewports don't over-zoom-out and re-introduce Mont-Ngafula / N'Sele.
+const CITY_CORE_BOUNDS: LatLngBoundsExpression = [
+  [-4.400, 15.250],
+  [-4.300, 15.360],
+];
+
 function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
   const shapes = useMemo(
     () =>
@@ -87,13 +94,14 @@ function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
   return (
     <MapContainer
       center={KINSHASA_CENTER}
-      zoom={11}
+      zoom={12}
       scrollWheelZoom={false}
       touchZoom
       doubleClickZoom
       zoomControl={false}
       className="h-[640px] w-full rounded-2xl border border-gray-200 shadow-lg overflow-hidden"
     >
+      <FitBounds bounds={CITY_CORE_BOUNDS} />
       <ZoomControl position="bottomright" />
       <TileLayer attribution={TILE_ATTR} url={TILE_URL} />
       <Pane name="rocade" style={{ zIndex: 350 }}>

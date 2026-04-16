@@ -1,5 +1,7 @@
-/* Service worker: stale-while-revalidate for HTML + long cache for static assets. */
-const VERSION = "v1";
+/* Service worker: stale-while-revalidate for HTML + long cache for static assets.
+   Never intercept video/audio/range-request resources — browsers require 206 Partial
+   Content and Cache API can't store 206 responses. */
+const VERSION = "v2";
 const RUNTIME = `cyp-runtime-${VERSION}`;
 const STATIC = `cyp-static-${VERSION}`;
 
@@ -21,9 +23,12 @@ function isStatic(url) {
     url.pathname.startsWith("/_next/static/") ||
     url.pathname.startsWith("/_next/image") ||
     url.pathname.startsWith("/images/") ||
-    url.pathname.startsWith("/videos/") ||
     /\.(?:svg|ico|png|jpe?g|webp|avif|woff2?|css|js)$/i.test(url.pathname)
   );
+}
+
+function isMedia(url) {
+  return /\.(?:mp4|webm|mov|m4v|ogg|mp3|wav|m4a)$/i.test(url.pathname);
 }
 
 function isHTMLNav(req) {
@@ -46,6 +51,10 @@ self.addEventListener("fetch", (event) => {
   if (url.pathname.startsWith("/admin")) return;
   if (url.pathname.startsWith("/merchant")) return;
 
+  // Never intercept video/audio: Range requests (206) break Cache API.
+  if (isMedia(url)) return;
+  if (req.headers.get("range")) return;
+
   if (isStatic(url)) {
     event.respondWith(cacheFirst(req, STATIC));
     return;
@@ -63,7 +72,7 @@ async function cacheFirst(req, cacheName) {
   if (cached) return cached;
   try {
     const res = await fetch(req);
-    if (res.ok) cache.put(req, res.clone());
+    if (res.ok && res.status === 200) cache.put(req, res.clone());
     return res;
   } catch (err) {
     if (cached) return cached;
@@ -76,7 +85,7 @@ async function staleWhileRevalidate(req, cacheName) {
   const cached = await cache.match(req);
   const network = fetch(req)
     .then((res) => {
-      if (res && res.ok && res.type === "basic") cache.put(req, res.clone());
+      if (res && res.ok && res.status === 200 && res.type === "basic") cache.put(req, res.clone());
       return res;
     })
     .catch(() => null);

@@ -203,32 +203,64 @@ function RocadeUnderlay() {
 }
 
 function MajorRoadsOverlay() {
-  const baseStyle = {
-    color: "#6b7280",
-    weight: 1.6,
-    opacity: 0.45,
+  const casingStyle = {
+    color: "#7da0bd",
+    weight: 9,
+    opacity: 0.6,
     lineCap: "round" as const,
     lineJoin: "round" as const,
   };
-  const hoverStyle = {
+  const fillStyle = {
+    color: "#cde0ee",
+    weight: 7,
+    opacity: 1,
+    lineCap: "round" as const,
+    lineJoin: "round" as const,
+  };
+  const hoverFill = {
+    color: "#fde68a",
+    weight: 7,
+    opacity: 1,
+  };
+  const hoverCasing = {
     color: "#f59e0b",
-    weight: 3.5,
-    opacity: 0.95,
+    weight: 10,
+    opacity: 0.9,
   };
   return (
     <>
+      {/* Casing (outer darker stroke) */}
+      {MAJOR_ROADS.map((road) => (
+        <Polyline
+          key={`casing-${road.id}`}
+          positions={road.coords}
+          pane="roads"
+          interactive={false}
+          pathOptions={casingStyle}
+        />
+      ))}
+      {/* Fill (inner lighter stroke) — interactive layer */}
       {MAJOR_ROADS.map((road) => {
         const mid = polygonCenter(road.coords);
         const offset = (road.labelOffset ?? [0, 0]) as [number, number];
         return (
           <Polyline
-            key={road.id}
+            key={`fill-${road.id}`}
             positions={road.coords}
             pane="roads"
-            pathOptions={baseStyle}
+            pathOptions={fillStyle}
             eventHandlers={{
-              mouseover: (e) => (e.target as L.Path).setStyle(hoverStyle),
-              mouseout: (e) => (e.target as L.Path).setStyle(baseStyle),
+              mouseover: (e) => {
+                (e.target as L.Path).setStyle(hoverFill);
+                // also lift its casing
+                const path = e.target as L.Path & { _casing?: L.Path };
+                if (path._casing) path._casing.setStyle(hoverCasing);
+              },
+              mouseout: (e) => {
+                (e.target as L.Path).setStyle(fillStyle);
+                const path = e.target as L.Path & { _casing?: L.Path };
+                if (path._casing) path._casing.setStyle(casingStyle);
+              },
             }}
           >
             <Tooltip

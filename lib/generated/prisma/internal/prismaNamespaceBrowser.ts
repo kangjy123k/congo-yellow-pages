@@ -57,6 +57,7 @@ export const ModelName = {
   Rental: 'Rental',
   Project: 'Project',
   Demand: 'Demand',
+  PageView: 'PageView',
   Banner: 'Banner'
 } as const
 
@@ -184,6 +185,20 @@ export const DemandScalarFieldEnum = {
 } as const
 
 export type DemandScalarFieldEnum = (typeof DemandScalarFieldEnum)[keyof typeof DemandScalarFieldEnum]
+
+
+export const PageViewScalarFieldEnum = {
+  id: 'id',
+  path: 'path',
+  locale: 'locale',
+  referrer: 'referrer',
+  country: 'country',
+  sessionId: 'sessionId',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+} as const
+
+export type PageViewScalarFieldEnum = (typeof PageViewScalarFieldEnum)[keyof typeof PageViewScalarFieldEnum]
 
 
 export const BannerScalarFieldEnum = {

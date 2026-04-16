@@ -72,6 +72,11 @@ export type Project = Prisma.ProjectModel
  */
 export type Demand = Prisma.DemandModel
 /**
+ * Model PageView
+ * 
+ */
+export type PageView = Prisma.PageViewModel
+/**
  * Model Banner
  * 
  */

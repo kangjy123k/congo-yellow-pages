@@ -259,8 +259,28 @@ const fr = {
       publishProject: "Publier un projet",
     },
   },
+  analytics: {
+    title: "Statistiques de visite",
+    subtitle: "Vue d'ensemble du trafic et de l'audience.",
+    backToAdmin: "← Retour à l'administration",
+    range: { d7: "7 jours", d30: "30 jours", all: "Tout" },
+    stat: {
+      views: "Pages vues",
+      visitors: "Visiteurs uniques",
+      pages: "Pages distinctes",
+      avgPerVisitor: "Pages / visiteur",
+    },
+    daily: "Trafic quotidien",
+    topPages: "Top pages",
+    topPagesEmpty: "Aucune visite enregistrée",
+    byLocale: "Par langue",
+    byCountry: "Par pays",
+    none: "—",
+    unknown: "Inconnu",
+  },
   admin: {
     title: "Administration",
+    analyticsLink: "Statistiques de visite →",
     stats: {
       pendingMerchants: "Vendeurs en attente",
       totalProducts: "Produits",
@@ -431,7 +451,7 @@ const fr = {
     listing: { sell: "Vente", rent: "Location", both: "Vente & Location" },
     rental: { lessor: "Bailleur", lessee: "Locataire" },
   },
-} as const;
+};
 
 export default fr;
 export type Dict = typeof fr;

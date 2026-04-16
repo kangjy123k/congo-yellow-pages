@@ -260,8 +260,28 @@ const en: Dict = {
       publishProject: "Publish a project",
     },
   },
+  analytics: {
+    title: "Visit analytics",
+    subtitle: "Overview of traffic and audience.",
+    backToAdmin: "← Back to admin",
+    range: { d7: "7 days", d30: "30 days", all: "All time" },
+    stat: {
+      views: "Page views",
+      visitors: "Unique visitors",
+      pages: "Distinct pages",
+      avgPerVisitor: "Pages / visitor",
+    },
+    daily: "Daily traffic",
+    topPages: "Top pages",
+    topPagesEmpty: "No visits recorded yet",
+    byLocale: "By language",
+    byCountry: "By country",
+    none: "—",
+    unknown: "Unknown",
+  },
   admin: {
     title: "Administration",
+    analyticsLink: "Visit analytics →",
     stats: {
       pendingMerchants: "Pending vendors",
       totalProducts: "Products",

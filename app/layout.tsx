@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
+import PageViewTracker from "@/components/PageViewTracker";
 import { getDict } from "@/lib/i18n/server";
 import { LOCALE_COOKIE, resolveLocale } from "@/lib/i18n/types";
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col bg-gray-50">
         <NextTopLoader color="#111827" height={2.5} showSpinner={false} shadow="0 0 10px #111827,0 0 5px #111827" />
         <I18nProvider initialLocale={initialLocale}>
+          <PageViewTracker />
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

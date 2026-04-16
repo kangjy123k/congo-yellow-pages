@@ -124,6 +124,22 @@ model Demand {
   user   User?   @relation(fields: [userId], references: [id])
 }
 
+// 页面访问记录
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  locale    String?
+  referrer  String?
+  country   String?
+  sessionId String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([path])
+  @@index([createdAt])
+  @@index([sessionId])
+}
+
 // 广告位
 model Banner {
   id        String   @id @default(cuid())

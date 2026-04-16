@@ -257,8 +257,28 @@ const zh: Dict = {
       publishProject: "发布项目",
     },
   },
+  analytics: {
+    title: "访问统计",
+    subtitle: "网站流量与受众概览。",
+    backToAdmin: "← 返回后台",
+    range: { d7: "近 7 天", d30: "近 30 天", all: "全部" },
+    stat: {
+      views: "总访问量",
+      visitors: "独立访客",
+      pages: "活跃页面数",
+      avgPerVisitor: "人均访问页",
+    },
+    daily: "每日访问",
+    topPages: "热门页面",
+    topPagesEmpty: "暂无访问数据",
+    byLocale: "按语言",
+    byCountry: "按国家",
+    none: "—",
+    unknown: "未知",
+  },
   admin: {
     title: "后台管理",
+    analyticsLink: "访问统计 →",
     stats: {
       pendingMerchants: "待审核商家",
       totalProducts: "产品总数",

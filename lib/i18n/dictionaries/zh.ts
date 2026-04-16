@@ -141,6 +141,17 @@ const zh: Dict = {
     allProducts: "全部商品",
     noResults: "暂无商品",
     tag: { sell: "出售", rent: "出租", both: "出售+出租" },
+    filter: {
+      sortLabel: "排序",
+      sort: { recent: "最新", priceAsc: "价格 ↑", priceDesc: "价格 ↓", featured: "精选优先" },
+      type: "类型",
+      stock: "库存",
+      stockAll: "全部",
+      priceMin: "最低价 ($)",
+      priceMax: "最高价 ($)",
+      reset: "重置",
+      apply: "筛选",
+    },
   },
   productDetail: {
     backToProducts: "返回商品列表",

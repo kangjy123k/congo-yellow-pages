@@ -142,6 +142,17 @@ const fr = {
     allProducts: "Tous les produits",
     noResults: "Aucun produit trouvé",
     tag: { sell: "Vente", rent: "Location", both: "Vente & Location" },
+    filter: {
+      sortLabel: "Tri",
+      sort: { recent: "Plus récents", priceAsc: "Prix ↑", priceDesc: "Prix ↓", featured: "À la une" },
+      type: "Type",
+      stock: "Stock",
+      stockAll: "Tous",
+      priceMin: "Prix min ($)",
+      priceMax: "Prix max ($)",
+      reset: "Réinitialiser",
+      apply: "Filtrer",
+    },
   },
   productDetail: {
     backToProducts: "Retour aux produits",

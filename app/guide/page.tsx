@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   Search,
   MapPin,
@@ -233,13 +234,13 @@ function BusinessCard({ biz }: { biz: Business }) {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md">
-      <div className="relative h-44 bg-gradient-to-br from-gray-100 to-gray-200">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+      <div className="relative h-44 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+        <Image
           src={biz.image}
           alt={biz.name}
-          className="w-full h-full object-cover"
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover"
         />
         {biz.featured && (
           <span className="absolute top-3 left-3 px-2.5 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full shadow flex items-center gap-1">

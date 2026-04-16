@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Hammer, Sofa, Zap, HardHat, ClipboardList } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getDict } from "@/lib/i18n/server";
@@ -125,10 +126,15 @@ export default async function HomePage() {
                 href={`/products/${p.id}`}
                 className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 overflow-hidden"
               >
-                <div className="h-40 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                <div className="relative h-40 bg-gray-100 flex items-center justify-center text-gray-400 text-sm overflow-hidden">
                   {p.images ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={JSON.parse(p.images)[0]} alt={p.title} className="h-full w-full object-cover" />
+                    <Image
+                      src={JSON.parse(p.images)[0]}
+                      alt={p.title}
+                      fill
+                      sizes="(max-width: 768px) 50vw, 33vw"
+                      className="object-cover"
+                    />
                   ) : (
                     dict.common.noImage
                   )}

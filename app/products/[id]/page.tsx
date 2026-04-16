@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { ChevronRight, Phone, MapPin } from "lucide-react";
 import { getDict } from "@/lib/i18n/server";
@@ -43,10 +44,16 @@ export default async function ProductDetailPage({ params }: PageProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-gray-100 rounded-xl h-72 flex items-center justify-center text-gray-400 overflow-hidden">
+        <div className="relative bg-gray-100 rounded-xl h-72 flex items-center justify-center text-gray-400 overflow-hidden">
           {images.length > 0 ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={images[0]} alt={product.title} className="h-full w-full object-cover" />
+            <Image
+              src={images[0]}
+              alt={product.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+              className="object-cover"
+            />
           ) : (
             t.noImage
           )}

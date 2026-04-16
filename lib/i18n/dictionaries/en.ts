@@ -144,6 +144,17 @@ const en: Dict = {
     allProducts: "All products",
     noResults: "No products found",
     tag: { sell: "Sale", rent: "Rent", both: "Sale & Rent" },
+    filter: {
+      sortLabel: "Sort",
+      sort: { recent: "Recent", priceAsc: "Price ↑", priceDesc: "Price ↓", featured: "Featured" },
+      type: "Type",
+      stock: "Stock",
+      stockAll: "All",
+      priceMin: "Min ($)",
+      priceMax: "Max ($)",
+      reset: "Reset",
+      apply: "Filter",
+    },
   },
   productDetail: {
     backToProducts: "Back to products",

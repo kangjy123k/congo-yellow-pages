@@ -1,9 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
+import { unstable_cache } from "next/cache";
 import { Hammer, Sofa, Zap, HardHat, ClipboardList } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getDict } from "@/lib/i18n/server";
 import HeroVideoBackground from "@/components/HeroVideoBackground";
+
+export const revalidate = 300;
 
 const CAT_ICONS = { materialsBtp: Hammer, furniture: Sofa, energy: Zap, providers: HardHat, postDemand: ClipboardList };
 const CAT_HREFS = {
@@ -22,27 +25,39 @@ const CAT_COLORS = {
 } as const;
 const CAT_KEYS = ["materialsBtp", "furniture", "energy", "providers", "postDemand"] as const;
 
-async function getLatestProducts() {
-  return prisma.product.findMany({
-    where: { status: "active" },
-    orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
-    take: 6,
-  });
-}
-async function getLatestServices() {
-  return prisma.serviceProvider.findMany({
-    where: { status: "active" },
-    orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
-    take: 2,
-  });
-}
-async function getStats() {
-  const [vendors, products] = await Promise.all([
-    prisma.user.count({ where: { status: "approved" } }),
-    prisma.product.count({ where: { status: "active" } }),
-  ]);
-  return { vendors, products };
-}
+const getLatestProducts = unstable_cache(
+  async () =>
+    prisma.product.findMany({
+      where: { status: "active" },
+      orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
+      take: 6,
+    }),
+  ["home:latestProducts"],
+  { revalidate: 300, tags: ["products"] },
+);
+
+const getLatestServices = unstable_cache(
+  async () =>
+    prisma.serviceProvider.findMany({
+      where: { status: "active" },
+      orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
+      take: 2,
+    }),
+  ["home:latestServices"],
+  { revalidate: 300, tags: ["services"] },
+);
+
+const getStats = unstable_cache(
+  async () => {
+    const [vendors, products] = await Promise.all([
+      prisma.user.count({ where: { status: "approved" } }),
+      prisma.product.count({ where: { status: "active" } }),
+    ]);
+    return { vendors, products };
+  },
+  ["home:stats"],
+  { revalidate: 600, tags: ["products", "users"] },
+);
 
 export default async function HomePage() {
   const [dict, products, services, stats] = await Promise.all([
@@ -136,7 +151,6 @@ export default async function HomePage() {
                       fill
                       sizes="(max-width: 768px) 50vw, 33vw"
                       className="object-cover"
-                      unoptimized
                     />
                   ) : (
                     dict.common.noImage

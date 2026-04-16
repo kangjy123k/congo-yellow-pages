@@ -4,6 +4,8 @@ import { COMMUNES, getCommune, priceColor } from "@/lib/pricing-data";
 import PricingMapLoader from "@/components/PricingMapLoader";
 import { getDict } from "@/lib/i18n/server";
 
+export const revalidate = 3600;
+
 export function generateStaticParams() {
   return COMMUNES.filter((c) => c.streets?.length).map((c) => ({ commune: c.slug }));
 }

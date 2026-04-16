@@ -1,12 +1,25 @@
 import Link from "next/link";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { SERVICE_CATEGORIES } from "@/lib/constants";
 import { ChevronRight, MapPin } from "lucide-react";
 import { getDict } from "@/lib/i18n/server";
 
+const getServices = unstable_cache(
+  async (cat: string | null) =>
+    prisma.serviceProvider.findMany({
+      where: { status: "active", ...(cat ? { category: cat } : {}) },
+      orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
+    }),
+  ["services:list"],
+  { revalidate: 300, tags: ["services"] },
+);
+
 interface PageProps {
   searchParams: Promise<{ cat?: string }>;
 }
+
+export const revalidate = 300;
 
 export default async function ServicesPage({ searchParams }: PageProps) {
   const { cat } = await searchParams;
@@ -15,13 +28,7 @@ export default async function ServicesPage({ searchParams }: PageProps) {
   const tCat = (k: string) =>
     dict.categories.service[k as keyof typeof dict.categories.service] ?? k;
 
-  const services = await prisma.serviceProvider.findMany({
-    where: {
-      status: "active",
-      ...(cat ? { category: cat } : {}),
-    },
-    orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
-  });
+  const services = await getServices(cat ?? null);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

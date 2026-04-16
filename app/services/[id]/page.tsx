@@ -8,6 +8,8 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+export const revalidate = 300;
+
 export default async function ServiceDetailPage({ params }: PageProps) {
   const { id } = await params;
   const [dict, service] = await Promise.all([

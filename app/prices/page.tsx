@@ -13,6 +13,8 @@ const LEGEND = [
   { rangeKey: "tier6", from: 0, to: 299, color: "#22c55e" },
 ];
 
+export const revalidate = 3600;
+
 function legendLabel(from: number, to: number | null): string {
   if (to === null) return `≥ $${from}/m²`;
   if (from === 0) return `< $${to + 1}`;

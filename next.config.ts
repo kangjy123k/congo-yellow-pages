@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["@libsql/client"],
+  compress: true,
+  poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
@@ -12,6 +14,7 @@ const nextConfig: NextConfig = {
     ],
     deviceSizes: [360, 480, 640, 768, 1024, 1280, 1600],
     imageSizes: [64, 96, 128, 200, 256],
+    minimumCacheTTL: 31536000,
   },
 };
 

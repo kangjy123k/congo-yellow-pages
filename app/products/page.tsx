@@ -1,9 +1,52 @@
 import Link from "next/link";
 import Image from "next/image";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { PRODUCT_CATEGORIES } from "@/lib/constants";
 import { ChevronRight } from "lucide-react";
 import { getDict } from "@/lib/i18n/server";
+
+export const revalidate = 300;
+
+type ProductFilter = {
+  main?: string;
+  cat?: string;
+  q?: string;
+  type?: string;
+  stock?: string;
+  min?: number;
+  max?: number;
+  sort: "recent" | "priceAsc" | "priceDesc" | "featured";
+};
+
+const getProducts = unstable_cache(
+  async (f: ProductFilter) => {
+    const orderBy =
+      f.sort === "priceAsc"
+        ? [{ price: "asc" as const }, { createdAt: "desc" as const }]
+        : f.sort === "priceDesc"
+          ? [{ price: "desc" as const }, { createdAt: "desc" as const }]
+          : f.sort === "featured"
+            ? [{ isFeatured: "desc" as const }, { createdAt: "desc" as const }]
+            : [{ createdAt: "desc" as const }];
+    return prisma.product.findMany({
+      where: {
+        status: "active",
+        ...(f.main ? { mainCategory: f.main } : {}),
+        ...(f.cat ? { category: f.cat } : {}),
+        ...(f.q ? { title: { contains: f.q } } : {}),
+        ...(f.type ? { listingType: f.type } : {}),
+        ...(f.stock ? { inventoryType: f.stock } : {}),
+        ...(f.min !== undefined || f.max !== undefined
+          ? { price: { ...(f.min !== undefined ? { gte: f.min } : {}), ...(f.max !== undefined ? { lte: f.max } : {}) } }
+          : {}),
+      },
+      orderBy,
+    });
+  },
+  ["products:list"],
+  { revalidate: 300, tags: ["products"] },
+);
 
 interface PageProps {
   searchParams: Promise<{
@@ -34,29 +77,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
   const tSub = (k: string) =>
     dict.categories.productSub[k as keyof typeof dict.categories.productSub] ?? k;
 
-  const orderBy =
-    sort === "priceAsc"
-      ? [{ price: "asc" as const }, { createdAt: "desc" as const }]
-      : sort === "priceDesc"
-        ? [{ price: "desc" as const }, { createdAt: "desc" as const }]
-        : sort === "featured"
-          ? [{ isFeatured: "desc" as const }, { createdAt: "desc" as const }]
-          : [{ createdAt: "desc" as const }];
-
-  const products = await prisma.product.findMany({
-    where: {
-      status: "active",
-      ...(main ? { mainCategory: main } : {}),
-      ...(cat ? { category: cat } : {}),
-      ...(q ? { title: { contains: q } } : {}),
-      ...(type ? { listingType: type } : {}),
-      ...(stock ? { inventoryType: stock } : {}),
-      ...(min !== undefined || max !== undefined
-        ? { price: { ...(min !== undefined ? { gte: min } : {}), ...(max !== undefined ? { lte: max } : {}) } }
-        : {}),
-    },
-    orderBy,
-  });
+  const products = await getProducts({ main, cat, q, type, stock, min, max, sort });
 
   const activeMain = main ? tMain(main) : dict.common.all;
   const baseParams = new URLSearchParams();
@@ -198,7 +219,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
                         fill
                         sizes="(max-width: 768px) 50vw, 33vw"
                         className="object-cover"
-                        unoptimized
+                        loading="lazy"
                       />
                     ) : (
                       dict.common.noImage

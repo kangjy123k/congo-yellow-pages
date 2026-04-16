@@ -7,6 +7,8 @@ interface PageProps {
   searchParams: Promise<{ type?: string }>;
 }
 
+export const revalidate = 300;
+
 export default async function RentalPage({ searchParams }: PageProps) {
   const { type } = await searchParams;
   const dict = await getDict();

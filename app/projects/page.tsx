@@ -14,6 +14,8 @@ const CATS: Array<{ key: string; value: string }> = [
   { key: "other", value: "Autre" },
 ];
 
+export const revalidate = 300;
+
 export default async function ProjectsPage({ searchParams }: PageProps) {
   const { cat } = await searchParams;
   const dict = await getDict();

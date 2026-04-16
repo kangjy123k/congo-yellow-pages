@@ -9,6 +9,8 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+export const revalidate = 300;
+
 export default async function ProductDetailPage({ params }: PageProps) {
   const { id } = await params;
   const [dict, product] = await Promise.all([
@@ -53,7 +55,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
               className="object-cover"
-              unoptimized
             />
           ) : (
             t.noImage

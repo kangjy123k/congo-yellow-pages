@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ChevronRight, MapPin } from "lucide-react";
+import { getDict } from "@/lib/i18n/server";
 
 interface PageProps {
   searchParams: Promise<{ type?: string }>;
@@ -8,6 +9,8 @@ interface PageProps {
 
 export default async function RentalPage({ searchParams }: PageProps) {
   const { type } = await searchParams;
+  const dict = await getDict();
+  const t = dict.rental;
 
   const rentals = await prisma.rental.findMany({
     where: {
@@ -20,38 +23,38 @@ export default async function RentalPage({ searchParams }: PageProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex items-center gap-1 text-sm text-gray-500 mb-6">
-        <Link href="/" className="hover:text-gray-900">首页</Link>
+        <Link href="/" className="hover:text-gray-900">{dict.nav.home}</Link>
         <ChevronRight size={14} />
-        <span className="text-gray-900">租赁</span>
+        <span className="text-gray-900">{t.title}</span>
       </div>
 
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">租赁信息</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{t.title}</h1>
         <div className="flex gap-2">
           <Link
             href="/rental"
             className={`px-4 py-2 rounded-lg text-sm font-medium ${!type ? "bg-purple-600 text-white" : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"}`}
           >
-            全部
+            {t.filters.all}
           </Link>
           <Link
             href="/rental?type=lessor"
             className={`px-4 py-2 rounded-lg text-sm font-medium ${type === "lessor" ? "bg-purple-600 text-white" : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"}`}
           >
-            出租方
+            {t.filters.lessor}
           </Link>
           <Link
             href="/rental?type=lessee"
             className={`px-4 py-2 rounded-lg text-sm font-medium ${type === "lessee" ? "bg-purple-600 text-white" : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"}`}
           >
-            承租方
+            {t.filters.lessee}
           </Link>
         </div>
       </div>
 
       {rentals.length === 0 ? (
         <div className="text-center py-16 text-gray-400 bg-white rounded-xl border border-gray-100">
-          暂无租赁信息
+          {t.noResults}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -62,7 +65,7 @@ export default async function RentalPage({ searchParams }: PageProps) {
             >
               <div className="flex items-center gap-2 mb-2">
                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${r.type === "lessor" ? "bg-purple-100 text-purple-700" : "bg-indigo-100 text-indigo-700"}`}>
-                  {r.type === "lessor" ? "出租方" : "承租方"}
+                  {r.type === "lessor" ? t.filters.lessor : t.filters.lessee}
                 </span>
                 {r.category && (
                   <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{r.category}</span>
@@ -75,7 +78,7 @@ export default async function RentalPage({ searchParams }: PageProps) {
               <div className="flex items-center justify-between text-sm">
                 {r.price ? (
                   <span className="text-purple-600 font-semibold">
-                    ¥{r.price}{r.priceUnit ? ` / ${r.priceUnit}` : ""}
+                    ${r.price}{r.priceUnit ? ` / ${r.priceUnit}` : ""}
                   </span>
                 ) : <span />}
                 {r.contact && (

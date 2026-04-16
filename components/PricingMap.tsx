@@ -79,7 +79,7 @@ function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
     () =>
       COMMUNES.map((c) => ({
         commune: c,
-        polygon: organicFromRect(c.bounds, c.slug),
+        polygon: c.bounds,
       })),
     []
   );
@@ -280,7 +280,7 @@ function MajorRoadsOverlay() {
 }
 
 function CommuneView({ commune }: { commune: CommunePrice }) {
-  const outline = useMemo(() => organicFromRect(commune.bounds, commune.slug), [commune]);
+  const outline = useMemo(() => commune.bounds, [commune]);
   const streets = useMemo(
     () =>
       (commune.streets ?? []).map((s) => ({

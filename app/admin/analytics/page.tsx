@@ -10,6 +10,15 @@ import type { VisitPoint } from "@/components/VisitMap";
 const LOCALE_DATE: Record<string, string> = { fr: "fr-FR", en: "en-US", zh: "zh-CN" };
 
 type Range = "d7" | "d30" | "all";
+type Device = "mobile" | "tablet" | "desktop";
+
+function classifyDevice(ua: string | null | undefined): Device {
+  if (!ua) return "desktop";
+  if (/iPad|Tablet|PlayBook|Silk/i.test(ua)) return "tablet";
+  if (/Android/i.test(ua) && !/Mobile/i.test(ua)) return "tablet";
+  if (/Mobi|iPhone|iPod|Android.+Mobile|Opera Mini|BlackBerry|IEMobile|Windows Phone/i.test(ua)) return "mobile";
+  return "desktop";
+}
 
 function rangeStart(r: Range): Date | null {
   const now = new Date();
@@ -36,7 +45,7 @@ export default async function AnalyticsPage({
   const since = rangeStart(range);
   const where = since ? { createdAt: { gte: since } } : {};
 
-  const [views, visitors, pages, perPage, perLocale, perCountry, dailyRaw, recent, geoRows] = await Promise.all([
+  const [views, visitors, pages, perPage, perLocale, perCountry, dailyRaw, recent, geoRows, uaRows] = await Promise.all([
     prisma.pageView.count({ where }),
     prisma.pageView
       .findMany({ where, select: { sessionId: true }, distinct: ["sessionId"] })
@@ -90,7 +99,12 @@ export default async function AnalyticsPage({
       select: { id: true, latitude: true, longitude: true, city: true, country: true, ip: true },
       take: 500,
     }),
+    prisma.pageView.findMany({ where, select: { userAgent: true } }),
   ]);
+
+  const deviceCount: Record<Device, number> = { mobile: 0, tablet: 0, desktop: 0 };
+  for (const r of uaRows) deviceCount[classifyDevice(r.userAgent)]++;
+  const deviceTotal = Math.max(1, deviceCount.mobile + deviceCount.tablet + deviceCount.desktop);
 
   const pointMap = new Map<string, VisitPoint>();
   for (const r of geoRows) {
@@ -254,6 +268,38 @@ export default async function AnalyticsPage({
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm mb-6">
+        <h2 className="text-sm font-bold text-gray-900 mb-4">{t.byDevice}</h2>
+        <div className="grid grid-cols-3 gap-3 mb-4">
+          <DeviceStat
+            label={t.device.mobile}
+            count={deviceCount.mobile}
+            pct={(deviceCount.mobile / deviceTotal) * 100}
+            accent="bg-emerald-500"
+            icon="📱"
+          />
+          <DeviceStat
+            label={t.device.tablet}
+            count={deviceCount.tablet}
+            pct={(deviceCount.tablet / deviceTotal) * 100}
+            accent="bg-amber-500"
+            icon="📟"
+          />
+          <DeviceStat
+            label={t.device.desktop}
+            count={deviceCount.desktop}
+            pct={(deviceCount.desktop / deviceTotal) * 100}
+            accent="bg-sky-500"
+            icon="💻"
+          />
+        </div>
+        <div className="h-2 w-full rounded-full overflow-hidden bg-gray-100 flex">
+          <div className="h-full bg-emerald-500" style={{ width: `${(deviceCount.mobile / deviceTotal) * 100}%` }} />
+          <div className="h-full bg-amber-500" style={{ width: `${(deviceCount.tablet / deviceTotal) * 100}%` }} />
+          <div className="h-full bg-sky-500" style={{ width: `${(deviceCount.desktop / deviceTotal) * 100}%` }} />
+        </div>
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm mb-6">
         <h2 className="text-sm font-bold text-gray-900 mb-4">{t.map}</h2>
         {points.length === 0 ? (
           <p className="text-sm text-gray-400 text-center py-8">{t.mapEmpty}</p>
@@ -337,6 +383,31 @@ function Stat({ label, value, accent }: { label: string; value: string; accent: 
       <div className={`absolute left-0 top-0 h-full w-1 ${accent}`} />
       <div className="text-xs uppercase tracking-wide text-gray-500 font-medium">{label}</div>
       <div className="text-2xl font-bold text-gray-900 mt-1 tabular-nums">{value}</div>
+    </div>
+  );
+}
+
+function DeviceStat({
+  label,
+  count,
+  pct,
+  accent,
+  icon,
+}: {
+  label: string;
+  count: number;
+  pct: number;
+  accent: string;
+  icon: string;
+}) {
+  return (
+    <div className="bg-gray-50 rounded-lg p-3 text-center">
+      <div className="text-xl mb-1">{icon}</div>
+      <div className="text-[11px] uppercase tracking-wide text-gray-500 font-medium">{label}</div>
+      <div className="text-lg font-bold text-gray-900 tabular-nums mt-0.5">{count}</div>
+      <div className={`text-[11px] font-semibold mt-0.5 tabular-nums text-white inline-block px-2 py-0.5 rounded-full ${accent}`}>
+        {pct.toFixed(1)}%
+      </div>
     </div>
   );
 }

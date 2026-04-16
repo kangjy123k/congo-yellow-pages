@@ -291,6 +291,8 @@ const zh: Dict = {
     cols: { time: "时间", ip: "IP", location: "位置", page: "页面", lang: "语言" },
     map: "访问地图",
     mapEmpty: "暂无地理坐标数据。",
+    byDevice: "按设备",
+    device: { mobile: "手机", tablet: "平板", desktop: "电脑" },
   },
   admin: {
     title: "后台管理",

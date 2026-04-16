@@ -294,6 +294,8 @@ const en: Dict = {
     cols: { time: "Time", ip: "IP", location: "Location", page: "Page", lang: "Lang" },
     map: "Visit map",
     mapEmpty: "No geo coordinates yet.",
+    byDevice: "By device",
+    device: { mobile: "Mobile", tablet: "Tablet", desktop: "Desktop" },
   },
   admin: {
     title: "Administration",

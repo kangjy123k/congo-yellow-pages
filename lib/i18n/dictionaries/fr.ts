@@ -293,6 +293,8 @@ const fr = {
     cols: { time: "Heure", ip: "IP", location: "Localisation", page: "Page", lang: "Langue" },
     map: "Carte des visites",
     mapEmpty: "Pas encore de coordonnées géographiques.",
+    byDevice: "Par appareil",
+    device: { mobile: "Mobile", tablet: "Tablette", desktop: "Ordinateur" },
   },
   admin: {
     title: "Administration",

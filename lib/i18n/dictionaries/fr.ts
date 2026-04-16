@@ -370,6 +370,19 @@ const fr = {
     tableCols: { commune: "Commune", price: "Prix moyen", level: "Niveau" },
     details: "Détails",
     noDetails: "—",
+    rocade: {
+      title: "Rocade de Kinshasa",
+      subtitle: "Tracé approximatif (régulièrement mis à jour)",
+      length: "Longueur",
+      progress: "Avancement",
+      communes: "Communes traversées",
+      legendDash: "Trait pointillé noir",
+      legendInterchange: "Pastille jaune : échangeur 3 niveaux",
+      legendAirport: "Pastille bleue : aéroport N'Djili",
+      legendStart: "Pastille verte : départ Mbudi",
+      disclaimer:
+        "Coordonnées approximatives basées sur les rapports publics (2024–2026), à titre indicatif uniquement.",
+    },
     disclaimer:
       "Données de démonstration. Les prix réels peuvent varier selon l'emplacement précis, l'état du bien et les conditions du marché.",
     clickForDetails: "Cliquer pour détails →",

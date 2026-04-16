@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { COMMUNES, priceColor } from "@/lib/pricing-data";
+import { ROCADE_INFO } from "@/lib/rocade-data";
 import PricingMapLoader from "@/components/PricingMapLoader";
 import { getDict } from "@/lib/i18n/server";
 
@@ -82,6 +83,35 @@ export default async function PricesPage() {
                   </li>
                 ))}
               </ul>
+            </div>
+
+            <div className="bg-gradient-to-br from-amber-50 to-white border border-amber-200 rounded-xl p-5 shadow-sm">
+              <h2 className="text-sm font-bold text-gray-900 mb-1 flex items-center gap-2">
+                <span className="inline-block h-2 w-6 bg-gray-900 rounded" style={{ backgroundImage: "repeating-linear-gradient(90deg,#000 0 6px,transparent 6px 10px)" }} />
+                {t.rocade.title}
+              </h2>
+              <p className="text-xs text-gray-500 mb-3">{t.rocade.subtitle}</p>
+              <dl className="text-xs space-y-1.5">
+                <div className="flex justify-between">
+                  <dt className="text-gray-500">{t.rocade.length}</dt>
+                  <dd className="text-gray-900 font-semibold">{ROCADE_INFO.totalKm}</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-gray-500">{t.rocade.progress}</dt>
+                  <dd className="text-gray-900 font-semibold">{ROCADE_INFO.progress}</dd>
+                </div>
+                <div className="flex justify-between gap-2">
+                  <dt className="text-gray-500 shrink-0">{t.rocade.communes}</dt>
+                  <dd className="text-gray-900 text-right">{ROCADE_INFO.communes.join(", ")}</dd>
+                </div>
+              </dl>
+              <ul className="mt-3 pt-3 border-t border-amber-200 text-[11px] text-gray-600 space-y-1">
+                <li>{t.rocade.legendDash}</li>
+                <li>{t.rocade.legendInterchange}</li>
+                <li>{t.rocade.legendAirport}</li>
+                <li>{t.rocade.legendStart}</li>
+              </ul>
+              <p className="mt-2 text-[10px] text-gray-400 italic leading-snug">{t.rocade.disclaimer}</p>
             </div>
 
             <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">

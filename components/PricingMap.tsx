@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, TileLayer, Polygon, Marker, Tooltip, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Polygon, Polyline, Marker, Tooltip, useMap, CircleMarker } from "react-leaflet";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import L, { type LatLngBoundsExpression, type PathOptions } from "leaflet";
@@ -13,6 +13,12 @@ import {
   type LatLng,
   type StreetPrice,
 } from "@/lib/pricing-data";
+import {
+  ROCADE_SEGMENTS,
+  ROCADE_INTERCHANGE,
+  ROCADE_AIRPORT,
+  ROCADE_MBUDI,
+} from "@/lib/rocade-data";
 import "leaflet/dist/leaflet.css";
 
 type Props =
@@ -134,7 +140,57 @@ function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
           interactive={false}
         />
       ))}
+      <RocadeOverlay />
     </MapContainer>
+  );
+}
+
+function RocadeOverlay() {
+  return (
+    <>
+      {ROCADE_SEGMENTS.map((seg) => (
+        <Polyline
+          key={seg.id}
+          positions={seg.coords}
+          pathOptions={{
+            color: "#000",
+            weight: 5,
+            opacity: 0.65,
+            dashArray: "10 8",
+            lineCap: "round",
+            lineJoin: "round",
+          }}
+        >
+          <Tooltip direction="top" sticky className="price-tooltip">
+            <div className="ttip">
+              <div className="ttip__name">{seg.name}</div>
+              <div className="ttip__hint">Tracé approximatif · ~65 % avancé</div>
+            </div>
+          </Tooltip>
+        </Polyline>
+      ))}
+      <CircleMarker
+        center={ROCADE_INTERCHANGE}
+        radius={8}
+        pathOptions={{ color: "#111827", fillColor: "#fbbf24", fillOpacity: 1, weight: 2 }}
+      >
+        <Tooltip direction="top">Échangeur 3 niveaux (jonction SW/SE)</Tooltip>
+      </CircleMarker>
+      <CircleMarker
+        center={ROCADE_AIRPORT}
+        radius={7}
+        pathOptions={{ color: "#111827", fillColor: "#3b82f6", fillOpacity: 1, weight: 2 }}
+      >
+        <Tooltip direction="top">Aéroport N'Djili (RN1)</Tooltip>
+      </CircleMarker>
+      <CircleMarker
+        center={ROCADE_MBUDI}
+        radius={6}
+        pathOptions={{ color: "#111827", fillColor: "#22c55e", fillOpacity: 1, weight: 2 }}
+      >
+        <Tooltip direction="top">Mbudi (départ SW)</Tooltip>
+      </CircleMarker>
+    </>
   );
 }
 

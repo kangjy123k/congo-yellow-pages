@@ -371,6 +371,19 @@ const en: Dict = {
     tableCols: { commune: "Commune", price: "Average price", level: "Level" },
     details: "Details",
     noDetails: "—",
+    rocade: {
+      title: "Kinshasa Ring Road",
+      subtitle: "Approximate alignment (work in progress)",
+      length: "Length",
+      progress: "Progress",
+      communes: "Communes crossed",
+      legendDash: "Dashed black line",
+      legendInterchange: "Yellow dot: 3-level interchange",
+      legendAirport: "Blue dot: N'Djili airport",
+      legendStart: "Green dot: Mbudi start",
+      disclaimer:
+        "Approximate coordinates based on public reports (2024–2026), for indicative purposes only.",
+    },
     disclaimer:
       "Demo data. Actual prices vary by exact location, condition and market.",
     clickForDetails: "Click for details →",

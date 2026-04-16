@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, TileLayer, Pane, Polygon, Polyline, Marker, Tooltip, useMap, CircleMarker } from "react-leaflet";
+import { MapContainer, TileLayer, Pane, Polygon, Polyline, Marker, Tooltip, useMap, CircleMarker, ZoomControl } from "react-leaflet";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import L, { type LatLngBoundsExpression, type PathOptions } from "leaflet";
@@ -91,8 +91,10 @@ function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
       scrollWheelZoom={false}
       touchZoom
       doubleClickZoom
+      zoomControl={false}
       className="h-[640px] w-full rounded-2xl border border-gray-200 shadow-lg overflow-hidden"
     >
+      <ZoomControl position="bottomright" />
       <TileLayer attribution={TILE_ATTR} url={TILE_URL} />
       <Pane name="rocade" style={{ zIndex: 350 }}>
         <RocadeUnderlay />
@@ -298,8 +300,10 @@ function CommuneView({ commune }: { commune: CommunePrice }) {
       scrollWheelZoom={false}
       touchZoom
       doubleClickZoom
+      zoomControl={false}
       className="h-[640px] w-full rounded-2xl border border-gray-200 shadow-lg overflow-hidden"
     >
+      <ZoomControl position="bottomright" />
       <TileLayer attribution={TILE_ATTR} url={TILE_URL} />
       <FitBounds bounds={outline as LatLngBoundsExpression} />
       <Polygon

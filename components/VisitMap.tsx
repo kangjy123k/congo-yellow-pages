@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, TileLayer, CircleMarker, Tooltip } from "react-leaflet";
+import { MapContainer, TileLayer, CircleMarker, Tooltip, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 export type VisitPoint = {
@@ -26,8 +26,10 @@ export default function VisitMap({ points }: { points: VisitPoint[] }) {
       scrollWheelZoom={false}
       touchZoom
       doubleClickZoom
+      zoomControl={false}
       className="h-[420px] w-full rounded-xl border border-gray-200 shadow-sm overflow-hidden"
     >
+      <ZoomControl position="bottomright" />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
         url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"

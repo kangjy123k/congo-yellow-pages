@@ -53,6 +53,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
               className="object-cover"
+              unoptimized
             />
           ) : (
             t.noImage

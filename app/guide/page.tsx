@@ -241,6 +241,7 @@ function BusinessCard({ biz }: { biz: Business }) {
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover"
+          unoptimized
         />
         {biz.featured && (
           <span className="absolute top-3 left-3 px-2.5 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full shadow flex items-center gap-1">

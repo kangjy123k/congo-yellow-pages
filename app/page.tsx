@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Hammer, Sofa, Zap, HardHat, ClipboardList } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getDict } from "@/lib/i18n/server";
+import HeroVideoBackground from "@/components/HeroVideoBackground";
 
 const CAT_ICONS = { materialsBtp: Hammer, furniture: Sofa, energy: Zap, providers: HardHat, postDemand: ClipboardList };
 const CAT_HREFS = {
@@ -55,12 +56,13 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-yellow-400 to-yellow-500 py-16">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-3">
+      <section className="relative bg-gradient-to-br from-yellow-400 to-yellow-500 py-16 overflow-hidden">
+        <HeroVideoBackground />
+        <div className="relative max-w-7xl mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-black text-white mb-3 drop-shadow-lg">
             {t.heroTitle}
           </h1>
-          <p className="text-lg text-gray-800 mb-8 max-w-2xl mx-auto">{t.heroSubtitle}</p>
+          <p className="text-lg text-gray-100 mb-8 max-w-2xl mx-auto drop-shadow">{t.heroSubtitle}</p>
           <form action="/products" method="get" className="flex max-w-xl mx-auto mb-10 shadow-lg rounded-xl overflow-hidden">
             <input
               name="q"
@@ -134,6 +136,7 @@ export default async function HomePage() {
                       fill
                       sizes="(max-width: 768px) 50vw, 33vw"
                       className="object-cover"
+                      unoptimized
                     />
                   ) : (
                     dict.common.noImage

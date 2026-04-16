@@ -1,66 +1,67 @@
 import type { LatLng } from "./pricing-data";
 
 /**
- * Rocade de Kinshasa — tracé approximatif basé sur les rapports publics
- * (Radio Okapi, ACGT, Présidence RDC, 2024-2026).
+ * Rocade de Kinshasa — tracé corrigé d'après la carte officielle ACGT
+ * (carte 2025, source utilisateur).
  *
- * IMPORTANT : ce tracé est une approximation pédagogique. Les coordonnées
- * réelles d'ingénierie ne sont pas publiées. Utilisé pour visualisation
- * indicative uniquement.
+ * Deux branches distinctes :
+ *   • Rocade Sud-Ouest (rouge) : Rond-Point Pompage (Nord) → Mitendi (Sud).
+ *     Axe nord-sud le long de l'ouest de Kinshasa.
+ *   • Rocade Sud-Est (vert) : Mitendi → Kimwenza Gare → Pont Ndjili →
+ *     raccordement RN1 (Av. Lumumba à Ndjili).
  *
- * Points de passage publics : Mbudi → Lutendele → Mitendi → Kimwenza Gare
- *   → (échangeur 3 niveaux) → Ndjili Brasserie → Kimbanseke → Av. Ndjoko
- *   → Aéroport N'Djili (RN1)
+ * Communes traversées : Mont-Ngafula, Selembao, Kisenso, Kimbanseke, N'Djili.
+ * Longueur : ~63 km cumulés.
+ * Avancement : ~65 % (avril 2026).
  *
- * Communes traversées : Mont-Ngafula, Kimbanseke, N'Djili, N'Sele
- * Longueur : ~63–70 km
- * Avancement : ~65 % (avril 2026)
+ * Coordonnées approximées à partir de la carte ACGT ; toponymes : Pompage,
+ * Lutendele, Kimwala, Bifurcation 1/2/3, Village, Maela, Bemseke,
+ * Kimwenza Gare, Pont Ndjili, Route SEROMAF, Av. Lumumba (entrée Ndjoko).
  */
 
 export type RocadeSegment = {
   id: string;
   name: string;
   status: "under_construction" | "planned" | "done";
+  color: string;
   coords: LatLng[];
 };
 
+// SW — du Nord (Pompage) vers le Sud (Mitendi/Maela), le long du fleuve
 export const ROCADE_SW: LatLng[] = [
-  [-4.420, 15.183], // Mbudi (départ SW)
-  [-4.432, 15.198], // Lutendele
-  [-4.448, 15.218], // Mitendi
-  [-4.462, 15.245], // Bralima / route Caravane
-  [-4.470, 15.275], // Kimwenza Gare (sud)
-  [-4.470, 15.305], // virage est, approche du nœud
-  [-4.462, 15.328], // arrivée à l'échangeur
+  [-4.302, 15.258], // Rond-Point Pompage (départ Nord)
+  [-4.315, 15.250], // sortie sud du rond-point
+  [-4.330, 15.241], // Entrée Lutendele
+  [-4.350, 15.232], // Kimwala (Bifurcation 1)
+  [-4.370, 15.222], // Bifurcation 2
+  [-4.388, 15.215], // Bifurcation 3
+  [-4.408, 15.210], // Village 1
+  [-4.428, 15.210], // Village 2 (descente sud)
+  [-4.443, 15.215], // Sortie Mitendi N1 (Maela)
 ];
 
+// SE — de Mitendi vers l'est puis nord pour rejoindre la RN1 (Lumumba/Ndjili)
 export const ROCADE_SE: LatLng[] = [
-  [-4.462, 15.328], // échangeur 3 niveaux
-  [-4.450, 15.355], // Riflar / Rail
-  [-4.430, 15.380], // Ndjili Brasserie
-  [-4.418, 15.405], // Cecomaf (Kimbanseke)
-  [-4.405, 15.428], // Buma / Av. Ndjoko
-  [-4.390, 15.440], // approche RN1
-  [-4.385, 15.444], // Aéroport N'Djili (RN1)
+  [-4.443, 15.215], // jonction avec SW à Mitendi
+  [-4.450, 15.230], // Bemseke
+  [-4.458, 15.250], // By-Pass
+  [-4.462, 15.272], // Kimwenza Gare
+  [-4.455, 15.305], // sud de Kisenso
+  [-4.448, 15.345], // sud de Kimbanseke
+  [-4.435, 15.385], // Pont Ndjili (Route SEROMAF)
+  [-4.420, 15.400], // remontée nord
+  [-4.405, 15.405], // Entrée Ndjoko
+  [-4.392, 15.408], // raccord RN1 (Av. Lumumba)
 ];
 
-export const ROCADE_INTERCHANGE: LatLng = [-4.462, 15.328];
-export const ROCADE_AIRPORT: LatLng = [-4.385, 15.444];
-export const ROCADE_MBUDI: LatLng = [-4.420, 15.183];
+export const ROCADE_NORTH_START: LatLng = [-4.302, 15.258]; // Rond-Point Pompage
+export const ROCADE_SOUTH_JUNCTION: LatLng = [-4.443, 15.215]; // Mitendi (jonction SW/SE)
+export const ROCADE_RN1_END: LatLng = [-4.392, 15.408]; // raccordement RN1
+export const ROCADE_PONT_NDJILI: LatLng = [-4.435, 15.385];
 
 export const ROCADE_SEGMENTS: RocadeSegment[] = [
-  {
-    id: "sw",
-    name: "Rocade Sud-Ouest",
-    status: "under_construction",
-    coords: ROCADE_SW,
-  },
-  {
-    id: "se",
-    name: "Rocade Sud-Est",
-    status: "under_construction",
-    coords: ROCADE_SE,
-  },
+  { id: "sw", name: "Rocade Sud-Ouest", status: "under_construction", color: "#dc2626", coords: ROCADE_SW },
+  { id: "se", name: "Rocade Sud-Est", status: "under_construction", color: "#16a34a", coords: ROCADE_SE },
 ];
 
 export const ROCADE_INFO = {
@@ -68,5 +69,5 @@ export const ROCADE_INFO = {
   progress: "~65%",
   startedYear: 2024,
   expectedCompletion: "2027–2028",
-  communes: ["Mont-Ngafula", "Kimbanseke", "N'Djili", "N'Sele"],
+  communes: ["Mont-Ngafula", "Selembao", "Kisenso", "Kimbanseke", "N'Djili"],
 };

@@ -15,9 +15,10 @@ import {
 } from "@/lib/pricing-data";
 import {
   ROCADE_SEGMENTS,
-  ROCADE_INTERCHANGE,
-  ROCADE_AIRPORT,
-  ROCADE_MBUDI,
+  ROCADE_NORTH_START,
+  ROCADE_SOUTH_JUNCTION,
+  ROCADE_RN1_END,
+  ROCADE_PONT_NDJILI,
 } from "@/lib/rocade-data";
 import "leaflet/dist/leaflet.css";
 
@@ -153,10 +154,9 @@ function RocadeOverlay() {
           key={seg.id}
           positions={seg.coords}
           pathOptions={{
-            color: "#000",
+            color: seg.color,
             weight: 5,
-            opacity: 0.65,
-            dashArray: "10 8",
+            opacity: 0.85,
             lineCap: "round",
             lineJoin: "round",
           }}
@@ -164,31 +164,38 @@ function RocadeOverlay() {
           <Tooltip direction="top" sticky className="price-tooltip">
             <div className="ttip">
               <div className="ttip__name">{seg.name}</div>
-              <div className="ttip__hint">Tracé approximatif · ~65 % avancé</div>
+              <div className="ttip__hint">Tracé ACGT · ~65 % avancé</div>
             </div>
           </Tooltip>
         </Polyline>
       ))}
       <CircleMarker
-        center={ROCADE_INTERCHANGE}
-        radius={8}
+        center={ROCADE_NORTH_START}
+        radius={6}
         pathOptions={{ color: "#111827", fillColor: "#fbbf24", fillOpacity: 1, weight: 2 }}
       >
-        <Tooltip direction="top">Échangeur 3 niveaux (jonction SW/SE)</Tooltip>
+        <Tooltip direction="top">Rond-Point Pompage (départ Nord)</Tooltip>
       </CircleMarker>
       <CircleMarker
-        center={ROCADE_AIRPORT}
+        center={ROCADE_SOUTH_JUNCTION}
         radius={7}
+        pathOptions={{ color: "#111827", fillColor: "#fbbf24", fillOpacity: 1, weight: 2 }}
+      >
+        <Tooltip direction="top">Mitendi / Maela — jonction SW / SE</Tooltip>
+      </CircleMarker>
+      <CircleMarker
+        center={ROCADE_PONT_NDJILI}
+        radius={6}
         pathOptions={{ color: "#111827", fillColor: "#3b82f6", fillOpacity: 1, weight: 2 }}
       >
-        <Tooltip direction="top">Aéroport N'Djili (RN1)</Tooltip>
+        <Tooltip direction="top">Pont Ndjili (Route SEROMAF)</Tooltip>
       </CircleMarker>
       <CircleMarker
-        center={ROCADE_MBUDI}
+        center={ROCADE_RN1_END}
         radius={6}
         pathOptions={{ color: "#111827", fillColor: "#22c55e", fillOpacity: 1, weight: 2 }}
       >
-        <Tooltip direction="top">Mbudi (départ SW)</Tooltip>
+        <Tooltip direction="top">Raccordement RN1 (Av. Lumumba)</Tooltip>
       </CircleMarker>
     </>
   );

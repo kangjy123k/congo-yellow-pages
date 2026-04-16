@@ -372,16 +372,17 @@ const fr = {
     noDetails: "—",
     rocade: {
       title: "Rocade de Kinshasa",
-      subtitle: "Tracé approximatif (régulièrement mis à jour)",
+      subtitle: "Tracé d'après la carte officielle ACGT",
       length: "Longueur",
       progress: "Avancement",
       communes: "Communes traversées",
-      legendDash: "Trait pointillé noir",
-      legendInterchange: "Pastille jaune : échangeur 3 niveaux",
-      legendAirport: "Pastille bleue : aéroport N'Djili",
-      legendStart: "Pastille verte : départ Mbudi",
+      legendSW: "Trait rouge : Rocade Sud-Ouest (Pompage → Mitendi)",
+      legendSE: "Trait vert : Rocade Sud-Est (Mitendi → RN1 Ndjili)",
+      legendStart: "Pastille jaune : Pompage / Mitendi (jonction)",
+      legendBridge: "Pastille bleue : Pont Ndjili",
+      legendEnd: "Pastille verte : raccord RN1 (Av. Lumumba)",
       disclaimer:
-        "Coordonnées approximatives basées sur les rapports publics (2024–2026), à titre indicatif uniquement.",
+        "Tracé approximé d'après la carte ACGT 2025, à titre indicatif.",
     },
     disclaimer:
       "Données de démonstration. Les prix réels peuvent varier selon l'emplacement précis, l'état du bien et les conditions du marché.",

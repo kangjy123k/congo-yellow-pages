@@ -86,10 +86,7 @@ export default async function PricesPage() {
             </div>
 
             <div className="bg-gradient-to-br from-amber-50 to-white border border-amber-200 rounded-xl p-5 shadow-sm">
-              <h2 className="text-sm font-bold text-gray-900 mb-1 flex items-center gap-2">
-                <span className="inline-block h-2 w-6 bg-gray-900 rounded" style={{ backgroundImage: "repeating-linear-gradient(90deg,#000 0 6px,transparent 6px 10px)" }} />
-                {t.rocade.title}
-              </h2>
+              <h2 className="text-sm font-bold text-gray-900 mb-1">{t.rocade.title}</h2>
               <p className="text-xs text-gray-500 mb-3">{t.rocade.subtitle}</p>
               <dl className="text-xs space-y-1.5">
                 <div className="flex justify-between">
@@ -106,10 +103,11 @@ export default async function PricesPage() {
                 </div>
               </dl>
               <ul className="mt-3 pt-3 border-t border-amber-200 text-[11px] text-gray-600 space-y-1">
-                <li>{t.rocade.legendDash}</li>
-                <li>{t.rocade.legendInterchange}</li>
-                <li>{t.rocade.legendAirport}</li>
-                <li>{t.rocade.legendStart}</li>
+                <li className="flex items-center gap-2"><span className="inline-block h-1 w-6 bg-red-600 rounded" />{t.rocade.legendSW}</li>
+                <li className="flex items-center gap-2"><span className="inline-block h-1 w-6 bg-green-600 rounded" />{t.rocade.legendSE}</li>
+                <li className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-amber-400 border border-gray-900" />{t.rocade.legendStart}</li>
+                <li className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-blue-500 border border-gray-900" />{t.rocade.legendBridge}</li>
+                <li className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-green-500 border border-gray-900" />{t.rocade.legendEnd}</li>
               </ul>
               <p className="mt-2 text-[10px] text-gray-400 italic leading-snug">{t.rocade.disclaimer}</p>
             </div>

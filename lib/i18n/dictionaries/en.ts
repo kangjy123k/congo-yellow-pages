@@ -373,16 +373,17 @@ const en: Dict = {
     noDetails: "—",
     rocade: {
       title: "Kinshasa Ring Road",
-      subtitle: "Approximate alignment (work in progress)",
+      subtitle: "Alignment based on official ACGT map",
       length: "Length",
       progress: "Progress",
       communes: "Communes crossed",
-      legendDash: "Dashed black line",
-      legendInterchange: "Yellow dot: 3-level interchange",
-      legendAirport: "Blue dot: N'Djili airport",
-      legendStart: "Green dot: Mbudi start",
+      legendSW: "Red line: SW (Pompage → Mitendi)",
+      legendSE: "Green line: SE (Mitendi → RN1 Ndjili)",
+      legendStart: "Yellow dots: Pompage / Mitendi junction",
+      legendBridge: "Blue dot: Ndjili bridge",
+      legendEnd: "Green dot: RN1 connection (Av. Lumumba)",
       disclaimer:
-        "Approximate coordinates based on public reports (2024–2026), for indicative purposes only.",
+        "Coordinates digitised from the 2025 ACGT map, indicative only.",
     },
     disclaimer:
       "Demo data. Actual prices vary by exact location, condition and market.",

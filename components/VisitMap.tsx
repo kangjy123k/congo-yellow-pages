@@ -23,7 +23,9 @@ export default function VisitMap({ points }: { points: VisitPoint[] }) {
     <MapContainer
       center={[avgLat, avgLng]}
       zoom={2}
-      scrollWheelZoom
+      scrollWheelZoom={false}
+      touchZoom
+      doubleClickZoom
       className="h-[420px] w-full rounded-xl border border-gray-200 shadow-sm overflow-hidden"
     >
       <TileLayer

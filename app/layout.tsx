@@ -1,19 +1,29 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import PageViewTracker from "@/components/PageViewTracker";
 import { getDict } from "@/lib/i18n/server";
 import { LOCALE_COOKIE, resolveLocale } from "@/lib/i18n/types";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#eab308",
+  viewportFit: "cover",
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const dict = await getDict();
   return {
     title: dict.meta.title,
     description: dict.meta.description,
+    appleWebApp: { capable: true, statusBarStyle: "default", title: "Congo BTP" },
   };
 }
 
@@ -32,8 +42,9 @@ export default async function RootLayout({
         <I18nProvider initialLocale={initialLocale}>
           <PageViewTracker />
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pb-16 md:pb-0">{children}</main>
           <Footer />
+          <MobileBottomNav />
         </I18nProvider>
       </body>
     </html>

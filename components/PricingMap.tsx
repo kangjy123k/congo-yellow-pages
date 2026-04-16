@@ -87,7 +87,9 @@ function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
     <MapContainer
       center={KINSHASA_CENTER}
       zoom={11}
-      scrollWheelZoom
+      scrollWheelZoom={false}
+      touchZoom
+      doubleClickZoom
       className="h-[640px] w-full rounded-2xl border border-gray-200 shadow-lg overflow-hidden"
     >
       <TileLayer attribution={TILE_ATTR} url={TILE_URL} />
@@ -217,7 +219,9 @@ function CommuneView({ commune }: { commune: CommunePrice }) {
     <MapContainer
       center={commune.center}
       zoom={14}
-      scrollWheelZoom
+      scrollWheelZoom={false}
+      touchZoom
+      doubleClickZoom
       className="h-[640px] w-full rounded-2xl border border-gray-200 shadow-lg overflow-hidden"
     >
       <TileLayer attribution={TILE_ATTR} url={TILE_URL} />

@@ -60,16 +60,17 @@ export default async function HomePage() {
             {t.heroTitle}
           </h1>
           <p className="text-lg text-gray-800 mb-8 max-w-2xl mx-auto">{t.heroSubtitle}</p>
-          <form action="/products" method="get" className="flex max-w-xl mx-auto mb-10">
+          <form action="/products" method="get" className="flex max-w-xl mx-auto mb-10 shadow-lg rounded-xl overflow-hidden">
             <input
               name="q"
               type="text"
               placeholder={t.searchPlaceholder}
-              className="flex-1 px-4 py-3 rounded-l-lg text-gray-900 text-sm focus:outline-none"
+              autoComplete="off"
+              className="flex-1 px-4 py-4 text-gray-900 text-base bg-white focus:outline-none min-w-0"
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-gray-900 text-white font-semibold rounded-r-lg hover:bg-gray-700 transition-colors text-sm"
+              className="px-5 sm:px-7 py-4 bg-gray-900 text-white font-semibold hover:bg-gray-700 transition-colors text-sm shrink-0 min-h-[48px]"
             >
               {dict.common.search}
             </button>

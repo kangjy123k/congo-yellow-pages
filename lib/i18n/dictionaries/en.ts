@@ -384,17 +384,13 @@ const en: Dict = {
     noDetails: "—",
     rocade: {
       title: "Kinshasa Ring Road",
-      subtitle: "Alignment based on official ACGT map",
+      subtitle: "Alignment digitised from the 2025 ACGT map",
       length: "Length",
       progress: "Progress",
       communes: "Communes crossed",
-      legendSW: "Red line: SW (Pompage → Mitendi)",
-      legendSE: "Green line: SE (Mitendi → RN1 Ndjili)",
-      legendStart: "Yellow dots: Pompage / Mitendi junction",
-      legendBridge: "Blue dot: Ndjili bridge",
-      legendEnd: "Green dot: RN1 connection (Av. Lumumba)",
-      disclaimer:
-        "Coordinates digitised from the 2025 ACGT map, indicative only.",
+      legendLine: "Gray line: ring road SW + SE (Pompage → Mitendi → RN1)",
+      legendRoads: "Thin gray lines: main avenues (hover for the name)",
+      disclaimer: "Indicative reference only, not georeferenced.",
     },
     disclaimer:
       "Demo data. Actual prices vary by exact location, condition and market.",

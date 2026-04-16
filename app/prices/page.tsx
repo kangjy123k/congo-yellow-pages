@@ -102,12 +102,9 @@ export default async function PricesPage() {
                   <dd className="text-gray-900 text-right">{ROCADE_INFO.communes.join(", ")}</dd>
                 </div>
               </dl>
-              <ul className="mt-3 pt-3 border-t border-amber-200 text-[11px] text-gray-600 space-y-1">
-                <li className="flex items-center gap-2"><span className="inline-block h-1 w-6 bg-red-600 rounded" />{t.rocade.legendSW}</li>
-                <li className="flex items-center gap-2"><span className="inline-block h-1 w-6 bg-green-600 rounded" />{t.rocade.legendSE}</li>
-                <li className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-amber-400 border border-gray-900" />{t.rocade.legendStart}</li>
-                <li className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-blue-500 border border-gray-900" />{t.rocade.legendBridge}</li>
-                <li className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-green-500 border border-gray-900" />{t.rocade.legendEnd}</li>
+              <ul className="mt-3 pt-3 border-t border-amber-200 text-[11px] text-gray-600 space-y-1.5">
+                <li className="flex items-start gap-2"><span className="inline-block h-1 w-6 bg-gray-400 rounded mt-1.5 shrink-0" />{t.rocade.legendLine}</li>
+                <li className="flex items-start gap-2"><span className="inline-block h-0.5 w-6 bg-gray-400 rounded mt-2 shrink-0" />{t.rocade.legendRoads}</li>
               </ul>
               <p className="mt-2 text-[10px] text-gray-400 italic leading-snug">{t.rocade.disclaimer}</p>
             </div>

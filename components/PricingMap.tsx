@@ -20,6 +20,7 @@ import {
   ROCADE_RN1_END,
   ROCADE_PONT_NDJILI,
 } from "@/lib/rocade-data";
+import { MAJOR_ROADS } from "@/lib/roads-data";
 import "leaflet/dist/leaflet.css";
 
 type Props =
@@ -93,6 +94,7 @@ function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
       className="h-[640px] w-full rounded-2xl border border-gray-200 shadow-lg overflow-hidden"
     >
       <TileLayer attribution={TILE_ATTR} url={TILE_URL} />
+      <RocadeUnderlay />
       {shapes.map(({ commune: c, polygon }) => {
         const clickable = !!c.streets?.length;
         const color = priceColor(c.pricePerSqm);
@@ -143,62 +145,91 @@ function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
           interactive={false}
         />
       ))}
-      <RocadeOverlay />
+      <MajorRoadsOverlay />
     </MapContainer>
   );
 }
 
-function RocadeOverlay() {
+function RocadeUnderlay() {
   return (
     <>
       {ROCADE_SEGMENTS.map((seg) => (
         <Polyline
           key={seg.id}
           positions={seg.coords}
+          interactive={false}
           pathOptions={{
-            color: seg.color,
-            weight: 5,
+            color: "#9ca3af",
+            weight: 2.5,
             opacity: 0.85,
             lineCap: "round",
             lineJoin: "round",
           }}
+        />
+      ))}
+      <CircleMarker
+        center={ROCADE_NORTH_START}
+        radius={4}
+        interactive={false}
+        pathOptions={{ color: "#6b7280", fillColor: "#d1d5db", fillOpacity: 1, weight: 1 }}
+      />
+      <CircleMarker
+        center={ROCADE_SOUTH_JUNCTION}
+        radius={5}
+        interactive={false}
+        pathOptions={{ color: "#6b7280", fillColor: "#d1d5db", fillOpacity: 1, weight: 1 }}
+      />
+      <CircleMarker
+        center={ROCADE_PONT_NDJILI}
+        radius={4}
+        interactive={false}
+        pathOptions={{ color: "#6b7280", fillColor: "#d1d5db", fillOpacity: 1, weight: 1 }}
+      />
+      <CircleMarker
+        center={ROCADE_RN1_END}
+        radius={4}
+        interactive={false}
+        pathOptions={{ color: "#6b7280", fillColor: "#d1d5db", fillOpacity: 1, weight: 1 }}
+      />
+    </>
+  );
+}
+
+function MajorRoadsOverlay() {
+  const baseStyle = {
+    color: "#9ca3af",
+    weight: 2,
+    opacity: 0.85,
+    lineCap: "round" as const,
+    lineJoin: "round" as const,
+  };
+  const hoverStyle = {
+    color: "#f59e0b",
+    weight: 4,
+    opacity: 1,
+  };
+  return (
+    <>
+      {MAJOR_ROADS.map((road) => (
+        <Polyline
+          key={road.id}
+          positions={road.coords}
+          pathOptions={baseStyle}
+          eventHandlers={{
+            mouseover: (e) => {
+              (e.target as L.Path).setStyle(hoverStyle);
+              (e.target as L.Path).bringToFront();
+            },
+            mouseout: (e) => (e.target as L.Path).setStyle(baseStyle),
+          }}
         >
           <Tooltip direction="top" sticky className="price-tooltip">
             <div className="ttip">
-              <div className="ttip__name">{seg.name}</div>
-              <div className="ttip__hint">Tracé ACGT · ~65 % avancé</div>
+              <div className="ttip__name">{road.name}</div>
             </div>
           </Tooltip>
         </Polyline>
       ))}
-      <CircleMarker
-        center={ROCADE_NORTH_START}
-        radius={6}
-        pathOptions={{ color: "#111827", fillColor: "#fbbf24", fillOpacity: 1, weight: 2 }}
-      >
-        <Tooltip direction="top">Rond-Point Pompage (départ Nord)</Tooltip>
-      </CircleMarker>
-      <CircleMarker
-        center={ROCADE_SOUTH_JUNCTION}
-        radius={7}
-        pathOptions={{ color: "#111827", fillColor: "#fbbf24", fillOpacity: 1, weight: 2 }}
-      >
-        <Tooltip direction="top">Mitendi / Maela — jonction SW / SE</Tooltip>
-      </CircleMarker>
-      <CircleMarker
-        center={ROCADE_PONT_NDJILI}
-        radius={6}
-        pathOptions={{ color: "#111827", fillColor: "#3b82f6", fillOpacity: 1, weight: 2 }}
-      >
-        <Tooltip direction="top">Pont Ndjili (Route SEROMAF)</Tooltip>
-      </CircleMarker>
-      <CircleMarker
-        center={ROCADE_RN1_END}
-        radius={6}
-        pathOptions={{ color: "#111827", fillColor: "#22c55e", fillOpacity: 1, weight: 2 }}
-      >
-        <Tooltip direction="top">Raccordement RN1 (Av. Lumumba)</Tooltip>
-      </CircleMarker>
     </>
   );
 }

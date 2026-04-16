@@ -80,6 +80,8 @@ export default async function HomePage() {
         fetchPriority="high"
       />
       <link rel="prefetch" as="video" href="/videos/hero-2.mp4" type="video/mp4" />
+      <link rel="prefetch" as="video" href="/videos/hero-3.mp4" type="video/mp4" />
+      <link rel="prefetch" as="video" href="/videos/hero-4.mp4" type="video/mp4" />
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-yellow-400 to-yellow-500 py-16 overflow-hidden">
         <HeroVideoBackground />

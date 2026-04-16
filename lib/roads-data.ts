@@ -1,113 +1,136 @@
 import type { LatLng } from "./pricing-data";
 
 /**
- * Principales artères de Kinshasa — coordonnées approximées.
- * Servent uniquement de repères visuels sur la carte des prix.
+ * Principales artères de Kinshasa.
+ * Coordonnées extraites d'OpenStreetMap (avril 2026).
  */
 
 export type MajorRoad = {
   id: string;
   name: string;
   coords: LatLng[];
+  /** Décalage manuel du label en pixels [dx, dy], pour éviter chevauchement */
+  labelOffset?: [number, number];
 };
 
 export const MAJOR_ROADS: MajorRoad[] = [
   {
     id: "bd-30-juin",
-    name: "Boulevard du 30 Juin",
+    name: "Bd du 30 Juin",
     coords: [
-      [-4.305, 15.270], // ouest (Limete bord)
-      [-4.305, 15.280], // Place de l'Indépendance
-      [-4.302, 15.290], // SOZACOM / centre Gombe
-      [-4.301, 15.300], // Hôtel du Gouvernement
-      [-4.302, 15.310], // est, vers pont
+      [-4.32019, 15.27507],
+      [-4.31482, 15.28227],
+      [-4.31069, 15.28866],
+      [-4.30776, 15.29327],
+      [-4.30589, 15.30064],
+      [-4.30485, 15.30471],
+      [-4.30336, 15.31001],
+      [-4.30161, 15.31600],
     ],
   },
   {
-    id: "av-24-novembre",
-    name: "Avenue du 24 Novembre",
+    id: "bd-tshatshi",
+    name: "Bd Colonel Tshatshi",
     coords: [
-      [-4.310, 15.293], // nord, Bandal
-      [-4.322, 15.295],
-      [-4.335, 15.297],
-      [-4.348, 15.299], // sud, Kasa-Vubu
+      [-4.30695, 15.28610],
+      [-4.30513, 15.28388],
+      [-4.30446, 15.28183],
+      [-4.30455, 15.27967],
+      [-4.30551, 15.27766],
+      [-4.31150, 15.27305],
+      [-4.31207, 15.27272],
+      [-4.31300, 15.27107],
+      [-4.31407, 15.26932],
     ],
+    labelOffset: [-30, 0],
   },
   {
-    id: "bd-lumumba",
-    name: "Boulevard Lumumba",
+    id: "av-batetela",
+    name: "Av. des Batetela",
     coords: [
-      [-4.320, 15.310], // Gombe est
-      [-4.340, 15.330], // Limete
-      [-4.360, 15.355], // Matete
-      [-4.385, 15.385], // Masina
-      [-4.395, 15.420], // Ndjili
-      [-4.388, 15.443], // Aéroport
+      [-4.31908, 15.28006],
+      [-4.31706, 15.27876],
+      [-4.31501, 15.27743],
+      [-4.31425, 15.27676],
+      [-4.31300, 15.27506],
+      [-4.31224, 15.27403],
+      [-4.31161, 15.27316],
     ],
-  },
-  {
-    id: "av-kasa-vubu",
-    name: "Avenue Kasa-Vubu",
-    coords: [
-      [-4.305, 15.288], // nord
-      [-4.325, 15.291],
-      [-4.348, 15.295], // Kasa-Vubu
-      [-4.365, 15.297],
-    ],
-  },
-  {
-    id: "av-tshatshi",
-    name: "Avenue Colonel Tshatshi",
-    coords: [
-      [-4.295, 15.286], // Gombe nord
-      [-4.305, 15.290],
-      [-4.315, 15.293],
-    ],
+    labelOffset: [0, 16],
   },
   {
     id: "av-wagenia",
-    name: "Avenue Wagenia",
+    name: "Av. Wagenia",
     coords: [
-      [-4.298, 15.293],
-      [-4.305, 15.300],
-      [-4.312, 15.306],
+      [-4.30119, 15.30879],
+      [-4.29861, 15.31044],
+      [-4.29846, 15.31383],
+      [-4.29944, 15.31826],
+      [-4.29974, 15.31929],
     ],
+    labelOffset: [0, -14],
+  },
+  {
+    id: "av-24-novembre",
+    name: "Av. du 24 Novembre",
+    coords: [
+      [-4.31700, 15.29270],
+      [-4.32400, 15.29350],
+      [-4.33200, 15.29420],
+      [-4.34100, 15.29550],
+      [-4.34900, 15.29650],
+    ],
+    labelOffset: [16, 0],
+  },
+  {
+    id: "av-kasa-vubu",
+    name: "Av. Kasa-Vubu",
+    coords: [
+      [-4.34456, 15.27231],
+      [-4.34344, 15.27605],
+      [-4.34227, 15.27949],
+      [-4.34185, 15.28146],
+    ],
+    labelOffset: [0, 16],
   },
   {
     id: "bd-sendwe",
-    name: "Boulevard Sendwe",
+    name: "Bd Sendwe",
     coords: [
-      [-4.345, 15.305], // Kalamu
-      [-4.360, 15.315],
-      [-4.378, 15.328], // Lemba
+      [-4.33438, 15.32056],
+      [-4.33485, 15.32170],
+      [-4.33549, 15.32319],
+      [-4.33619, 15.32492],
+      [-4.33690, 15.32668],
     ],
   },
   {
     id: "av-liberation",
-    name: "Avenue de la Libération",
+    name: "Av. de la Libération",
     coords: [
-      [-4.340, 15.328], // Limete N
-      [-4.358, 15.334],
-      [-4.380, 15.338], // Matete
+      [-4.34791, 15.29194],
+      [-4.34053, 15.29508],
+      [-4.33698, 15.29603],
+      [-4.33280, 15.29655],
+      [-4.32325, 15.29533],
+      [-4.31902, 15.29361],
+      [-4.31610, 15.29189],
+      [-4.31091, 15.28862],
     ],
+    labelOffset: [-30, -10],
   },
   {
-    id: "av-batetela",
-    name: "Avenue Batetela",
+    id: "bd-lumumba",
+    name: "Bd Lumumba",
     coords: [
-      [-4.297, 15.282],
-      [-4.302, 15.286],
-      [-4.308, 15.290],
-    ],
-  },
-  {
-    id: "rn1-matadi",
-    name: "Route Nationale 1 (Matadi)",
-    coords: [
-      [-4.420, 15.215], // Mitendi
-      [-4.395, 15.215],
-      [-4.380, 15.225],
-      [-4.365, 15.245], // Selembao
+      [-4.33022, 15.32504],
+      [-4.33189, 15.32541],
+      [-4.33577, 15.32658],
+      [-4.34800, 15.33500],
+      [-4.36500, 15.35200],
+      [-4.38500, 15.38500],
+      [-4.39500, 15.42000],
+      [-4.38800, 15.44300],
     ],
   },
 ];

@@ -210,26 +210,34 @@ function MajorRoadsOverlay() {
   };
   return (
     <>
-      {MAJOR_ROADS.map((road) => (
-        <Polyline
-          key={road.id}
-          positions={road.coords}
-          pathOptions={baseStyle}
-          eventHandlers={{
-            mouseover: (e) => {
-              (e.target as L.Path).setStyle(hoverStyle);
-              (e.target as L.Path).bringToFront();
-            },
-            mouseout: (e) => (e.target as L.Path).setStyle(baseStyle),
-          }}
-        >
-          <Tooltip direction="top" sticky className="price-tooltip">
-            <div className="ttip">
-              <div className="ttip__name">{road.name}</div>
-            </div>
-          </Tooltip>
-        </Polyline>
-      ))}
+      {MAJOR_ROADS.map((road) => {
+        const mid = polygonCenter(road.coords);
+        const offset = (road.labelOffset ?? [0, 0]) as [number, number];
+        return (
+          <Polyline
+            key={road.id}
+            positions={road.coords}
+            pathOptions={baseStyle}
+            eventHandlers={{
+              mouseover: (e) => {
+                (e.target as L.Path).setStyle(hoverStyle);
+                (e.target as L.Path).bringToFront();
+              },
+              mouseout: (e) => (e.target as L.Path).setStyle(baseStyle),
+            }}
+          >
+            <Tooltip
+              permanent
+              direction="center"
+              offset={offset}
+              position={mid}
+              className="road-label"
+            >
+              {road.name}
+            </Tooltip>
+          </Polyline>
+        );
+      })}
     </>
   );
 }

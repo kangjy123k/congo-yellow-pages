@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { getDict, getLocale } from "@/lib/i18n/server";
+import VisitMapLoader from "@/components/VisitMapLoader";
+import type { VisitPoint } from "@/components/VisitMap";
 
 const LOCALE_DATE: Record<string, string> = { fr: "fr-FR", en: "en-US", zh: "zh-CN" };
 
@@ -34,7 +36,7 @@ export default async function AnalyticsPage({
   const since = rangeStart(range);
   const where = since ? { createdAt: { gte: since } } : {};
 
-  const [views, visitors, pages, perPage, perLocale, perCountry, dailyRaw] = await Promise.all([
+  const [views, visitors, pages, perPage, perLocale, perCountry, dailyRaw, recent, geoRows] = await Promise.all([
     prisma.pageView.count({ where }),
     prisma.pageView
       .findMany({ where, select: { sessionId: true }, distinct: ["sessionId"] })
@@ -67,7 +69,49 @@ export default async function AnalyticsPage({
       select: { createdAt: true, sessionId: true },
       orderBy: { createdAt: "asc" },
     }),
+    prisma.pageView.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      take: 25,
+      select: {
+        id: true,
+        path: true,
+        locale: true,
+        ip: true,
+        city: true,
+        region: true,
+        country: true,
+        postalCode: true,
+        createdAt: true,
+      },
+    }),
+    prisma.pageView.findMany({
+      where: { ...where, latitude: { not: null }, longitude: { not: null } },
+      select: { id: true, latitude: true, longitude: true, city: true, country: true, ip: true },
+      take: 500,
+    }),
   ]);
+
+  const pointMap = new Map<string, VisitPoint>();
+  for (const r of geoRows) {
+    if (r.latitude == null || r.longitude == null) continue;
+    const key = `${r.latitude.toFixed(2)},${r.longitude.toFixed(2)}`;
+    const existing = pointMap.get(key);
+    if (existing) {
+      existing.count++;
+    } else {
+      pointMap.set(key, {
+        id: r.id,
+        lat: r.latitude,
+        lng: r.longitude,
+        city: r.city,
+        country: r.country,
+        ip: r.ip,
+        count: 1,
+      });
+    }
+  }
+  const points = Array.from(pointMap.values());
 
   const days = since ? 7 : 14;
   const start = since ?? new Date(Date.now() - 14 * 86400_000);
@@ -207,6 +251,59 @@ export default async function AnalyticsPage({
             </ul>
           )}
         </div>
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm mb-6">
+        <h2 className="text-sm font-bold text-gray-900 mb-4">{t.map}</h2>
+        {points.length === 0 ? (
+          <p className="text-sm text-gray-400 text-center py-8">{t.mapEmpty}</p>
+        ) : (
+          <VisitMapLoader points={points} />
+        )}
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm mb-6">
+        <div className="flex items-center justify-between mb-1">
+          <h2 className="text-sm font-bold text-gray-900">{t.recentVisits}</h2>
+        </div>
+        <p className="text-xs text-gray-500 mb-3">{t.recentNote}</p>
+        {recent.length === 0 ? (
+          <p className="text-sm text-gray-400 text-center py-8">{t.topPagesEmpty}</p>
+        ) : (
+          <div className="overflow-x-auto -mx-5">
+            <table className="w-full text-xs">
+              <thead className="bg-gray-50 text-left text-[10px] uppercase tracking-wide text-gray-500">
+                <tr>
+                  <th className="px-4 py-2 whitespace-nowrap">{t.cols.time}</th>
+                  <th className="px-4 py-2 whitespace-nowrap">{t.cols.ip}</th>
+                  <th className="px-4 py-2">{t.cols.location}</th>
+                  <th className="px-4 py-2">{t.cols.page}</th>
+                  <th className="px-4 py-2">{t.cols.lang}</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {recent.map((r) => {
+                  const loc = [r.city, r.region, r.country].filter(Boolean).join(", ");
+                  const postal = r.postalCode ? ` · ${r.postalCode}` : "";
+                  return (
+                    <tr key={r.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-2 text-gray-700 whitespace-nowrap tabular-nums">
+                        {r.createdAt.toLocaleString(dateLocale, { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                      </td>
+                      <td className="px-4 py-2 text-gray-700 font-mono text-[11px]">{r.ip ?? t.unknown}</td>
+                      <td className="px-4 py-2 text-gray-700">
+                        {loc || t.unknown}
+                        {postal && <span className="text-gray-400">{postal}</span>}
+                      </td>
+                      <td className="px-4 py-2 text-gray-900 font-medium truncate max-w-[200px]">{r.path}</td>
+                      <td className="px-4 py-2 text-gray-700">{r.locale ?? "—"}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">

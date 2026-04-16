@@ -126,18 +126,25 @@ model Demand {
 
 // 页面访问记录
 model PageView {
-  id        String   @id @default(cuid())
-  path      String
-  locale    String?
-  referrer  String?
-  country   String?
-  sessionId String?
-  userAgent String?
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  path       String
+  locale     String?
+  referrer   String?
+  country    String?
+  region     String?
+  city       String?
+  postalCode String?
+  latitude   Float?
+  longitude  Float?
+  ip         String?
+  sessionId  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
 
   @@index([path])
   @@index([createdAt])
   @@index([sessionId])
+  @@index([country])
 }
 
 // 广告位

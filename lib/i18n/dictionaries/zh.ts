@@ -275,6 +275,11 @@ const zh: Dict = {
     byCountry: "按国家",
     none: "—",
     unknown: "未知",
+    recentVisits: "最近访问",
+    recentNote: "基于 IP 地理位置：城市/邮编/经纬度（最细到城市级，无法精确到街道）。",
+    cols: { time: "时间", ip: "IP", location: "位置", page: "页面", lang: "语言" },
+    map: "访问地图",
+    mapEmpty: "暂无地理坐标数据。",
   },
   admin: {
     title: "后台管理",

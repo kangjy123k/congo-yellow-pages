@@ -10,6 +10,14 @@ function dailyHash(ip: string, ua: string): string {
   return createHash("sha256").update(`${ip}|${ua}|${day}`).digest("hex").slice(0, 24);
 }
 
+function safeDecode(s: string): string {
+  try {
+    return decodeURIComponent(s);
+  } catch {
+    return s;
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => ({}));
@@ -30,11 +38,32 @@ export async function POST(req: Request) {
       req.headers.get("x-real-ip") ??
       "0.0.0.0";
     const country = req.headers.get("x-vercel-ip-country") ?? null;
+    const region = req.headers.get("x-vercel-ip-country-region") ?? null;
+    const cityRaw = req.headers.get("x-vercel-ip-city") ?? null;
+    const city = cityRaw ? safeDecode(cityRaw) : null;
+    const postalCode = req.headers.get("x-vercel-ip-postal-code") ?? null;
+    const lat = req.headers.get("x-vercel-ip-latitude");
+    const lng = req.headers.get("x-vercel-ip-longitude");
+    const latitude = lat ? Number(lat) : null;
+    const longitude = lng ? Number(lng) : null;
     const referrer = req.headers.get("referer") ?? null;
     const sessionId = dailyHash(ip, ua);
 
     await prisma.pageView.create({
-      data: { path, locale, referrer: referrer?.slice(0, 200), country, sessionId, userAgent: ua },
+      data: {
+        path,
+        locale,
+        referrer: referrer?.slice(0, 200),
+        country,
+        region,
+        city,
+        postalCode,
+        latitude: Number.isFinite(latitude) ? latitude : null,
+        longitude: Number.isFinite(longitude) ? longitude : null,
+        ip,
+        sessionId,
+        userAgent: ua,
+      },
     });
     return NextResponse.json({ ok: true });
   } catch (e) {

@@ -1158,6 +1158,12 @@ export const PageViewScalarFieldEnum = {
   locale: 'locale',
   referrer: 'referrer',
   country: 'country',
+  region: 'region',
+  city: 'city',
+  postalCode: 'postalCode',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  ip: 'ip',
   sessionId: 'sessionId',
   userAgent: 'userAgent',
   createdAt: 'createdAt'

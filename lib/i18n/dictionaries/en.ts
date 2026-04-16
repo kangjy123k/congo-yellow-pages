@@ -278,6 +278,11 @@ const en: Dict = {
     byCountry: "By country",
     none: "—",
     unknown: "Unknown",
+    recentVisits: "Recent visits",
+    recentNote: "IP geolocation: city / postal code / coordinates (granularity limited to city level).",
+    cols: { time: "Time", ip: "IP", location: "Location", page: "Page", lang: "Lang" },
+    map: "Visit map",
+    mapEmpty: "No geo coordinates yet.",
   },
   admin: {
     title: "Administration",

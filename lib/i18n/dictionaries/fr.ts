@@ -277,6 +277,11 @@ const fr = {
     byCountry: "Par pays",
     none: "—",
     unknown: "Inconnu",
+    recentVisits: "Visites récentes",
+    recentNote: "Géolocalisation IP : ville/code postal/coordonnées (granularité limitée à la ville).",
+    cols: { time: "Heure", ip: "IP", location: "Localisation", page: "Page", lang: "Langue" },
+    map: "Carte des visites",
+    mapEmpty: "Pas encore de coordonnées géographiques.",
   },
   admin: {
     title: "Administration",

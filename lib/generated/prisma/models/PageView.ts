@@ -20,8 +20,20 @@ export type PageViewModel = runtime.Types.Result.DefaultSelection<Prisma.$PageVi
 
 export type AggregatePageView = {
   _count: PageViewCountAggregateOutputType | null
+  _avg: PageViewAvgAggregateOutputType | null
+  _sum: PageViewSumAggregateOutputType | null
   _min: PageViewMinAggregateOutputType | null
   _max: PageViewMaxAggregateOutputType | null
+}
+
+export type PageViewAvgAggregateOutputType = {
+  latitude: number | null
+  longitude: number | null
+}
+
+export type PageViewSumAggregateOutputType = {
+  latitude: number | null
+  longitude: number | null
 }
 
 export type PageViewMinAggregateOutputType = {
@@ -30,6 +42,12 @@ export type PageViewMinAggregateOutputType = {
   locale: string | null
   referrer: string | null
   country: string | null
+  region: string | null
+  city: string | null
+  postalCode: string | null
+  latitude: number | null
+  longitude: number | null
+  ip: string | null
   sessionId: string | null
   userAgent: string | null
   createdAt: Date | null
@@ -41,6 +59,12 @@ export type PageViewMaxAggregateOutputType = {
   locale: string | null
   referrer: string | null
   country: string | null
+  region: string | null
+  city: string | null
+  postalCode: string | null
+  latitude: number | null
+  longitude: number | null
+  ip: string | null
   sessionId: string | null
   userAgent: string | null
   createdAt: Date | null
@@ -52,6 +76,12 @@ export type PageViewCountAggregateOutputType = {
   locale: number
   referrer: number
   country: number
+  region: number
+  city: number
+  postalCode: number
+  latitude: number
+  longitude: number
+  ip: number
   sessionId: number
   userAgent: number
   createdAt: number
@@ -59,12 +89,28 @@ export type PageViewCountAggregateOutputType = {
 }
 
 
+export type PageViewAvgAggregateInputType = {
+  latitude?: true
+  longitude?: true
+}
+
+export type PageViewSumAggregateInputType = {
+  latitude?: true
+  longitude?: true
+}
+
 export type PageViewMinAggregateInputType = {
   id?: true
   path?: true
   locale?: true
   referrer?: true
   country?: true
+  region?: true
+  city?: true
+  postalCode?: true
+  latitude?: true
+  longitude?: true
+  ip?: true
   sessionId?: true
   userAgent?: true
   createdAt?: true
@@ -76,6 +122,12 @@ export type PageViewMaxAggregateInputType = {
   locale?: true
   referrer?: true
   country?: true
+  region?: true
+  city?: true
+  postalCode?: true
+  latitude?: true
+  longitude?: true
+  ip?: true
   sessionId?: true
   userAgent?: true
   createdAt?: true
@@ -87,6 +139,12 @@ export type PageViewCountAggregateInputType = {
   locale?: true
   referrer?: true
   country?: true
+  region?: true
+  city?: true
+  postalCode?: true
+  latitude?: true
+  longitude?: true
+  ip?: true
   sessionId?: true
   userAgent?: true
   createdAt?: true
@@ -131,6 +189,18 @@ export type PageViewAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: PageViewAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: PageViewSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: PageViewMinAggregateInputType
@@ -161,6 +231,8 @@ export type PageViewGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: PageViewCountAggregateInputType | true
+  _avg?: PageViewAvgAggregateInputType
+  _sum?: PageViewSumAggregateInputType
   _min?: PageViewMinAggregateInputType
   _max?: PageViewMaxAggregateInputType
 }
@@ -171,10 +243,18 @@ export type PageViewGroupByOutputType = {
   locale: string | null
   referrer: string | null
   country: string | null
+  region: string | null
+  city: string | null
+  postalCode: string | null
+  latitude: number | null
+  longitude: number | null
+  ip: string | null
   sessionId: string | null
   userAgent: string | null
   createdAt: Date
   _count: PageViewCountAggregateOutputType | null
+  _avg: PageViewAvgAggregateOutputType | null
+  _sum: PageViewSumAggregateOutputType | null
   _min: PageViewMinAggregateOutputType | null
   _max: PageViewMaxAggregateOutputType | null
 }
@@ -203,6 +283,12 @@ export type PageViewWhereInput = {
   locale?: Prisma.StringNullableFilter<"PageView"> | string | null
   referrer?: Prisma.StringNullableFilter<"PageView"> | string | null
   country?: Prisma.StringNullableFilter<"PageView"> | string | null
+  region?: Prisma.StringNullableFilter<"PageView"> | string | null
+  city?: Prisma.StringNullableFilter<"PageView"> | string | null
+  postalCode?: Prisma.StringNullableFilter<"PageView"> | string | null
+  latitude?: Prisma.FloatNullableFilter<"PageView"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"PageView"> | number | null
+  ip?: Prisma.StringNullableFilter<"PageView"> | string | null
   sessionId?: Prisma.StringNullableFilter<"PageView"> | string | null
   userAgent?: Prisma.StringNullableFilter<"PageView"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PageView"> | Date | string
@@ -214,6 +300,12 @@ export type PageViewOrderByWithRelationInput = {
   locale?: Prisma.SortOrderInput | Prisma.SortOrder
   referrer?: Prisma.SortOrderInput | Prisma.SortOrder
   country?: Prisma.SortOrderInput | Prisma.SortOrder
+  region?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  latitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  ip?: Prisma.SortOrderInput | Prisma.SortOrder
   sessionId?: Prisma.SortOrderInput | Prisma.SortOrder
   userAgent?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -228,6 +320,12 @@ export type PageViewWhereUniqueInput = Prisma.AtLeast<{
   locale?: Prisma.StringNullableFilter<"PageView"> | string | null
   referrer?: Prisma.StringNullableFilter<"PageView"> | string | null
   country?: Prisma.StringNullableFilter<"PageView"> | string | null
+  region?: Prisma.StringNullableFilter<"PageView"> | string | null
+  city?: Prisma.StringNullableFilter<"PageView"> | string | null
+  postalCode?: Prisma.StringNullableFilter<"PageView"> | string | null
+  latitude?: Prisma.FloatNullableFilter<"PageView"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"PageView"> | number | null
+  ip?: Prisma.StringNullableFilter<"PageView"> | string | null
   sessionId?: Prisma.StringNullableFilter<"PageView"> | string | null
   userAgent?: Prisma.StringNullableFilter<"PageView"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PageView"> | Date | string
@@ -239,12 +337,20 @@ export type PageViewOrderByWithAggregationInput = {
   locale?: Prisma.SortOrderInput | Prisma.SortOrder
   referrer?: Prisma.SortOrderInput | Prisma.SortOrder
   country?: Prisma.SortOrderInput | Prisma.SortOrder
+  region?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  latitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  ip?: Prisma.SortOrderInput | Prisma.SortOrder
   sessionId?: Prisma.SortOrderInput | Prisma.SortOrder
   userAgent?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.PageViewCountOrderByAggregateInput
+  _avg?: Prisma.PageViewAvgOrderByAggregateInput
   _max?: Prisma.PageViewMaxOrderByAggregateInput
   _min?: Prisma.PageViewMinOrderByAggregateInput
+  _sum?: Prisma.PageViewSumOrderByAggregateInput
 }
 
 export type PageViewScalarWhereWithAggregatesInput = {
@@ -256,6 +362,12 @@ export type PageViewScalarWhereWithAggregatesInput = {
   locale?: Prisma.StringNullableWithAggregatesFilter<"PageView"> | string | null
   referrer?: Prisma.StringNullableWithAggregatesFilter<"PageView"> | string | null
   country?: Prisma.StringNullableWithAggregatesFilter<"PageView"> | string | null
+  region?: Prisma.StringNullableWithAggregatesFilter<"PageView"> | string | null
+  city?: Prisma.StringNullableWithAggregatesFilter<"PageView"> | string | null
+  postalCode?: Prisma.StringNullableWithAggregatesFilter<"PageView"> | string | null
+  latitude?: Prisma.FloatNullableWithAggregatesFilter<"PageView"> | number | null
+  longitude?: Prisma.FloatNullableWithAggregatesFilter<"PageView"> | number | null
+  ip?: Prisma.StringNullableWithAggregatesFilter<"PageView"> | string | null
   sessionId?: Prisma.StringNullableWithAggregatesFilter<"PageView"> | string | null
   userAgent?: Prisma.StringNullableWithAggregatesFilter<"PageView"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PageView"> | Date | string
@@ -267,6 +379,12 @@ export type PageViewCreateInput = {
   locale?: string | null
   referrer?: string | null
   country?: string | null
+  region?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  ip?: string | null
   sessionId?: string | null
   userAgent?: string | null
   createdAt?: Date | string
@@ -278,6 +396,12 @@ export type PageViewUncheckedCreateInput = {
   locale?: string | null
   referrer?: string | null
   country?: string | null
+  region?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  ip?: string | null
   sessionId?: string | null
   userAgent?: string | null
   createdAt?: Date | string
@@ -289,6 +413,12 @@ export type PageViewUpdateInput = {
   locale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -300,6 +430,12 @@ export type PageViewUncheckedUpdateInput = {
   locale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -311,6 +447,12 @@ export type PageViewCreateManyInput = {
   locale?: string | null
   referrer?: string | null
   country?: string | null
+  region?: string | null
+  city?: string | null
+  postalCode?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  ip?: string | null
   sessionId?: string | null
   userAgent?: string | null
   createdAt?: Date | string
@@ -322,6 +464,12 @@ export type PageViewUpdateManyMutationInput = {
   locale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -333,6 +481,12 @@ export type PageViewUncheckedUpdateManyInput = {
   locale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referrer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -344,9 +498,20 @@ export type PageViewCountOrderByAggregateInput = {
   locale?: Prisma.SortOrder
   referrer?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  region?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+  ip?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
   userAgent?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type PageViewAvgOrderByAggregateInput = {
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
 }
 
 export type PageViewMaxOrderByAggregateInput = {
@@ -355,6 +520,12 @@ export type PageViewMaxOrderByAggregateInput = {
   locale?: Prisma.SortOrder
   referrer?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  region?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+  ip?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
   userAgent?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -366,9 +537,20 @@ export type PageViewMinOrderByAggregateInput = {
   locale?: Prisma.SortOrder
   referrer?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  region?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+  ip?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
   userAgent?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type PageViewSumOrderByAggregateInput = {
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
 }
 
 
@@ -379,6 +561,12 @@ export type PageViewSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   locale?: boolean
   referrer?: boolean
   country?: boolean
+  region?: boolean
+  city?: boolean
+  postalCode?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  ip?: boolean
   sessionId?: boolean
   userAgent?: boolean
   createdAt?: boolean
@@ -390,6 +578,12 @@ export type PageViewSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   locale?: boolean
   referrer?: boolean
   country?: boolean
+  region?: boolean
+  city?: boolean
+  postalCode?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  ip?: boolean
   sessionId?: boolean
   userAgent?: boolean
   createdAt?: boolean
@@ -401,6 +595,12 @@ export type PageViewSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   locale?: boolean
   referrer?: boolean
   country?: boolean
+  region?: boolean
+  city?: boolean
+  postalCode?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  ip?: boolean
   sessionId?: boolean
   userAgent?: boolean
   createdAt?: boolean
@@ -412,12 +612,18 @@ export type PageViewSelectScalar = {
   locale?: boolean
   referrer?: boolean
   country?: boolean
+  region?: boolean
+  city?: boolean
+  postalCode?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  ip?: boolean
   sessionId?: boolean
   userAgent?: boolean
   createdAt?: boolean
 }
 
-export type PageViewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "path" | "locale" | "referrer" | "country" | "sessionId" | "userAgent" | "createdAt", ExtArgs["result"]["pageView"]>
+export type PageViewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "path" | "locale" | "referrer" | "country" | "region" | "city" | "postalCode" | "latitude" | "longitude" | "ip" | "sessionId" | "userAgent" | "createdAt", ExtArgs["result"]["pageView"]>
 
 export type $PageViewPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PageView"
@@ -428,6 +634,12 @@ export type $PageViewPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     locale: string | null
     referrer: string | null
     country: string | null
+    region: string | null
+    city: string | null
+    postalCode: string | null
+    latitude: number | null
+    longitude: number | null
+    ip: string | null
     sessionId: string | null
     userAgent: string | null
     createdAt: Date
@@ -859,6 +1071,12 @@ export interface PageViewFieldRefs {
   readonly locale: Prisma.FieldRef<"PageView", 'String'>
   readonly referrer: Prisma.FieldRef<"PageView", 'String'>
   readonly country: Prisma.FieldRef<"PageView", 'String'>
+  readonly region: Prisma.FieldRef<"PageView", 'String'>
+  readonly city: Prisma.FieldRef<"PageView", 'String'>
+  readonly postalCode: Prisma.FieldRef<"PageView", 'String'>
+  readonly latitude: Prisma.FieldRef<"PageView", 'Float'>
+  readonly longitude: Prisma.FieldRef<"PageView", 'Float'>
+  readonly ip: Prisma.FieldRef<"PageView", 'String'>
   readonly sessionId: Prisma.FieldRef<"PageView", 'String'>
   readonly userAgent: Prisma.FieldRef<"PageView", 'String'>
   readonly createdAt: Prisma.FieldRef<"PageView", 'DateTime'>

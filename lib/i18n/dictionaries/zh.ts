@@ -389,6 +389,7 @@ const zh: Dict = {
       communes: "途经市镇",
       legendLine: "灰线：环城路 SW+SE（Pompage → Mitendi → RN1）",
       legendRoads: "灰色细线：主要大道（鼠标悬停显示名称）",
+      mapLabel: "环城路",
       disclaimer: "仅作视觉参考，未经精确测量。",
     },
     disclaimer: "演示数据。实际价格因具体位置、房屋状况与市场行情而异。",

@@ -391,6 +391,7 @@ const fr = {
       communes: "Communes traversées",
       legendLine: "Ligne grise : Rocade SW + SE (Pompage → Mitendi → RN1)",
       legendRoads: "Lignes grises fines : grandes avenues (survoler pour le nom)",
+      mapLabel: "Rocade",
       disclaimer: "Repère visuel uniquement, non géoréférencé.",
     },
     disclaimer:

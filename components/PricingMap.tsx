@@ -21,6 +21,7 @@ import {
   ROCADE_PONT_NDJILI,
 } from "@/lib/rocade-data";
 import { MAJOR_ROADS } from "@/lib/roads-data";
+import { useDict } from "@/lib/i18n/I18nProvider";
 import "leaflet/dist/leaflet.css";
 
 type Props =
@@ -107,6 +108,7 @@ function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
       <Pane name="rocade" style={{ zIndex: 350 }}>
         <RocadeUnderlay />
       </Pane>
+      <RocadeLabel />
       <Pane name="communes" style={{ zIndex: 400 }}>
         {shapes.map(({ commune: c, polygon }) => {
           const clickable = !!c.streets?.length;
@@ -159,6 +161,32 @@ function CityView({ onSelect }: { onSelect: (slug: string) => void }) {
         />
       ))}
     </MapContainer>
+  );
+}
+
+// Anchor labels on visible rocade points. Two labels so the annotation
+// stays near the gray line at any zoom/pan within the city.
+const ROCADE_LABEL_SW: LatLng = [-4.388, 15.215];
+const ROCADE_LABEL_SE: LatLng = [-4.458, 15.272];
+
+function RocadeLabel() {
+  const dict = useDict();
+  const label = dict.prices.rocade.mapLabel;
+  const icon = useMemo(
+    () =>
+      L.divIcon({
+        className: "rocade-label-wrapper",
+        html: `<div class="rocade-label">${label}</div>`,
+        iconSize: [90, 18],
+        iconAnchor: [45, 9],
+      }),
+    [label]
+  );
+  return (
+    <>
+      <Marker position={ROCADE_LABEL_SW} icon={icon} interactive={false} />
+      <Marker position={ROCADE_LABEL_SE} icon={icon} interactive={false} />
+    </>
   );
 }
 

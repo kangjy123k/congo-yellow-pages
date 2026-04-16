@@ -145,8 +145,29 @@ body {
 }
 .road-label.leaflet-tooltip::before { display: none; }
 
+.rocade-label-wrapper {
+  background: transparent;
+  border: 0;
+  pointer-events: none;
+}
+.rocade-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #4b5563;
+  letter-spacing: 0.3px;
+  text-align: center;
+  white-space: nowrap;
+  text-transform: uppercase;
+  text-shadow:
+    -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff,
+    0 -1px 0 #fff, 0 1px 0 #fff, -1px 0 0 #fff, 1px 0 0 #fff;
+}
+
 @media (max-width: 768px) {
   .road-label.leaflet-tooltip {
+    font-size: 9px;
+  }
+  .rocade-label {
     font-size: 9px;
   }
 }

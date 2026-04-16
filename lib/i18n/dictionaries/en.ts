@@ -392,6 +392,7 @@ const en: Dict = {
       communes: "Communes crossed",
       legendLine: "Gray line: ring road SW + SE (Pompage → Mitendi → RN1)",
       legendRoads: "Thin gray lines: main avenues (hover for the name)",
+      mapLabel: "Ring road",
       disclaimer: "Indicative reference only, not georeferenced.",
     },
     disclaimer:

@@ -70,18 +70,13 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* React 19 hoists these <link> tags to <head> so the first hero video
-          is fetched in parallel with HTML parsing — "首页优先加载视频". */}
       <link
         rel="preload"
         as="video"
-        href="/videos/hero-1.mp4"
+        href="/videos/hero.mp4"
         type="video/mp4"
         fetchPriority="high"
       />
-      <link rel="prefetch" as="video" href="/videos/hero-2.mp4" type="video/mp4" />
-      <link rel="prefetch" as="video" href="/videos/hero-3.mp4" type="video/mp4" />
-      <link rel="prefetch" as="video" href="/videos/hero-4.mp4" type="video/mp4" />
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-yellow-400 to-yellow-500 py-16 overflow-hidden">
         <HeroVideoBackground />
